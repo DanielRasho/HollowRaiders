@@ -9,7 +9,8 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private GridManager gridManager;
     [SerializeField] private Vector2Int DungeonSize = new Vector2Int(100, 100);
     [SerializeField] private int NumMainRooms = 3;
-    [SerializeField] private Vector2Int SpawnOffsetRange = new Vector2Int(3, 4);
+    [SerializeField] private Vector2Int RoomSizeRange = new Vector2Int(3, 7);
+    [SerializeField] private Vector2Int SpawnOffsetRange = new Vector2Int(3, 5);
     [SerializeField] private Vector2Int RoomsInBetween = new Vector2Int(-10, 10);
     [SerializeField] private Room RoomPrefab;
     
@@ -61,6 +62,11 @@ public class DungeonGenerator : MonoBehaviour
             
             CritialPath.Add(room);
             MapGraph.Add(room.Id, room);
+            
+            // SET ROOM SIZE
+            int width = rnd.Next(RoomSizeRange.x, RoomSizeRange.y);
+            int height = rnd.Next(RoomSizeRange.x, RoomSizeRange.y);
+            room.SetSize(width, height);
 
             // ADD CONNECTIONS
             if (previousRoom != null)
