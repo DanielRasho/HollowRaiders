@@ -28,8 +28,7 @@ public class AudioManager : MonoBehaviour
         fxSource.volume    = fxVolume;
     }
 
-    // ---- Music ----
-
+    #region Music
     public void PlayMusic(AudioClip clip, bool restart = false)
     {
         if (clip == null) return;
@@ -45,8 +44,9 @@ public class AudioManager : MonoBehaviour
 
     public void ResumeMusic() => ambientSource.UnPause();
 
-    // ---- FX ----
+    #endregion
 
+    #region FX
     /// <summary>Fire and forget — plays the clip once at current FX volume.</summary>
     public void PlayFX(AudioClip clip)
     {
@@ -60,6 +60,7 @@ public class AudioManager : MonoBehaviour
         if (clip == null) return;
         AudioSource.PlayClipAtPoint(clip, position, fxVolume);
     }
+    #endregion
 
     // ---- Volume ----
 

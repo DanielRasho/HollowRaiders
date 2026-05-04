@@ -6,7 +6,9 @@ public static class BootstrapLoader
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     static void Init()
     {
-        if (Object.FindFirstObjectByType<BootStrapper>() != null)
+        var activeScene = SceneManager.GetActiveScene();
+
+        if (activeScene.name == "bootstrap")
             return;
 
         SceneManager.LoadScene("bootstrap", LoadSceneMode.Additive);
