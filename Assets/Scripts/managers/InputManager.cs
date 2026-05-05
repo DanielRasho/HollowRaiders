@@ -12,27 +12,23 @@ public class Input_Manager : MonoBehaviour
     
     private void Awake()
     {
-        if (Instance != null)
+        if (Instance != null && Instance != this)
         {
-            Destroy(Instance);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-        }
+
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
         _actions = new GameInputActions();
+        Debug.Log("Input Actions Enabled");
+        _actions.Enable(); // enable here
     }
 
-    private void OnEnable()
-    {
-        _actions.Enable();
-    }
-    
     private void OnDisable()
     {
-        _actions.Disable();
+        _actions?.Disable();
     }
 
     // Replace the context switch section

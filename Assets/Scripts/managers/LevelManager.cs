@@ -1,8 +1,10 @@
+using System;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
+    [SerializeField] private AudioClip BattleMusic;
 
     private void Awake()
     {
@@ -14,5 +16,11 @@ public class LevelManager : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Start()
+    {
+        Input_Manager.Instance.SwitchToMap("Player");
+        AudioManager.Instance.PlayMusic(BattleMusic, true);
     }
 }
