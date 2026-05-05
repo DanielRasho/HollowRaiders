@@ -17,7 +17,7 @@ Plan your path, adapt to the unknown, and lead your team through the chaos.
 
 ## 🎮 Demo
 
-▶️ https://youtu.be/8SFNls_qnuI
+▶️ https://youtu.be/9hU7kZU2RC8
 
 ---
 
