@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = System.Random;
 
-public class DungeonGenerator : MonoBehaviour
+public class DungeonGenerator_Legacy : MonoBehaviour
 {
     [Header("General")]
     [SerializeField] private GridManager gridManager;
@@ -12,7 +13,7 @@ public class DungeonGenerator : MonoBehaviour
     [SerializeField] private Vector2Int RoomSizeRange = new Vector2Int(3, 7);
     [SerializeField] private Vector2Int SpawnOffsetRange = new Vector2Int(3, 5);
     [SerializeField] private Vector2Int RoomsInBetween = new Vector2Int(-10, 10);
-    [SerializeField] private Room RoomPrefab;
+    [FormerlySerializedAs("RoomPrefab")] [SerializeField] private Room_Legacy roomLegacyPrefab;
     
     [Header("Simulation")]
     [SerializeField] private bool inmediateGeneration = false;
@@ -20,9 +21,9 @@ public class DungeonGenerator : MonoBehaviour
 
     // DATA STRUCTURE
     private int RoomCount = 0;
-    private Dictionary<int, Room> MapGraph = new Dictionary<int, Room>();
-    private List<Edge> Edges = new List<Edge>();
-    private List<Room> CritialPath = new List<Room>();
+    private Dictionary<int, Room_Legacy> MapGraph = new Dictionary<int, Room_Legacy>();
+    private List<Edge_Legacy> Edges = new List<Edge_Legacy>();
+    private List<Room_Legacy> CritialPath = new List<Room_Legacy>();
 
     private void Start()
     {
@@ -42,8 +43,8 @@ public class DungeonGenerator : MonoBehaviour
         float max = SpawnOffsetRange.x;
         float min = SpawnOffsetRange.y;
         Vector3 spawnPosition = new Vector3();
-        Room firstRoom = null;
-        Room previousRoom = null;
+        Room_Legacy firstRoomLegacy = null;
+        Room_Legacy previousRoomLegacy = null;
         
         for (int i = 0; i < NumMainRooms; i++)
         {
@@ -54,39 +55,39 @@ public class DungeonGenerator : MonoBehaviour
             spawnPosition.Set(offsetX, offsetY, 0f);
 
             // CREATE ROOM
-            Room room = Instantiate(RoomPrefab, transform);
-            room.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
+            Room_Legacy roomLegacy = Instantiate(roomLegacyPrefab, transform);
+            roomLegacy.transform.SetPositionAndRotation(spawnPosition, Quaternion.identity);
             
-            room.Id = RoomCount;
+            roomLegacy.Id = RoomCount;
             RoomCount++;
             
-            CritialPath.Add(room);
-            MapGraph.Add(room.Id, room);
+            CritialPath.Add(roomLegacy);
+            MapGraph.Add(roomLegacy.Id, roomLegacy);
             
             // SET ROOM SIZE
             int width = rnd.Next(RoomSizeRange.x, RoomSizeRange.y);
             int height = rnd.Next(RoomSizeRange.x, RoomSizeRange.y);
-            room.SetSize(width, height);
+            roomLegacy.SetSize(width, height);
 
             // ADD CONNECTIONS
-            if (previousRoom != null)
+            if (previousRoomLegacy != null)
             {
                 GameObject edgeObj = new GameObject("Edge");
-                Edge edge = edgeObj.AddComponent<Edge>();
-                edge.Init(previousRoom, room);
+                Edge_Legacy edgeLegacy = edgeObj.AddComponent<Edge_Legacy>();
+                edgeLegacy.Init(previousRoomLegacy, roomLegacy);
 
-                Edges.Add(edge);
+                Edges.Add(edgeLegacy);
             }
-            previousRoom = room;
+            previousRoomLegacy = roomLegacy;
 
-            if (i == 0) firstRoom = room;
+            if (i == 0) firstRoomLegacy = roomLegacy;
             if (i == NumMainRooms - 1 && NumMainRooms != 1)
             {
                 GameObject edgeObj = new GameObject("Edge");
-                Edge edge = edgeObj.AddComponent<Edge>();
-                edge.Init(room, firstRoom);
+                Edge_Legacy edgeLegacy = edgeObj.AddComponent<Edge_Legacy>();
+                edgeLegacy.Init(roomLegacy, firstRoomLegacy);
 
-                Edges.Add(edge);
+                Edges.Add(edgeLegacy);
             }
             
         }
@@ -100,7 +101,7 @@ public class DungeonGenerator : MonoBehaviour
         }
     }
 
-    private void AddRoomInBetweenNodes(Room A, Room B, Room newRoom)
+    private void AddRoomInBetweenNodes(Room_Legacy A, Room_Legacy B, Room_Legacy newRoomLegacy)
     {
         
     }

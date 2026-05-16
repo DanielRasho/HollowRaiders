@@ -6,7 +6,7 @@ using UnityEditor;
 #endif
 
 [ExecuteAlways]
-public class Room : MonoBehaviour
+public class Room_Legacy : MonoBehaviour
 {
     [SerializeField] public int Id = 0;
     
@@ -23,7 +23,7 @@ public class Room : MonoBehaviour
     [SerializeField] private GameObject TilePrefab;
 
     private BoxCollider2D coll;
-    private List<Room> Neightbors;
+    private List<Room_Legacy> Neightbors;
 
     private void Start()
     {

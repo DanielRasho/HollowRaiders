@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e05cd739777eaea4da3cc0dca24894e5, type: 3}
+  m_Name: BasicAutomata
+  m_EditorClassIdentifier: Assembly-CSharp::Automata
+  seed: 12345
+  startState: 0
+  states:
+  - type: 0
+    connections:
+    - to: 1
+      prob: 1
+  - type: 1
+    connections:
+    - to: 1
+      prob: 0.5
+    - to: 3
+      prob: 0.45
+    - to: 2
+      prob: 0.05
+  - type: 3
+    connections:
+    - to: 1
+      prob: 0.8
+    - to: 2
+      prob: 0.2
+  - type: 2
+    connections:
+    - to: 3
+      prob: 0.2
+    - to: 1
+      prob: 0.8
+  - type: 4
+    connections:
+    - to: 3
+      prob: 0.8
+    - to: 1
+      prob: 0.2
