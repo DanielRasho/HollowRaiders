@@ -29,13 +29,13 @@ public class DungeonGenerator
         // EXPAND PIECES TO ITS VERTEX
         Map map = new Map();
 
-        Dictionary<Vector2, List<int>> allPoints = new Dictionary<Vector2, List<int>>();
+        Dictionary<Vector2Int, List<int>> allPoints = new Dictionary<Vector2Int, List<int>>();
 
         int cycleId = 0;
 
         foreach (var tile in tilemap.Tiles.Values)
         {
-            HashSet<Vector2> points = ExpandTetrisTiles(tile.Cells);
+            HashSet<Vector2Int> points = ExpandTetrisTiles(tile.Cells);
 
             // Keep track of points
             foreach (var p in points)
@@ -51,7 +51,10 @@ public class DungeonGenerator
             }
 
             // Create rooms
-            List<Vector2> loop = ComputeHull(tile.Cells);
+            List<Vector2Int> loop = ComputeHull(tile.Cells);
+            
+            Debug.Log(loop.Count);
+            Debug.Log(points.Count);
 
             List<Room> rooms = new List<Room>();
 
@@ -66,12 +69,14 @@ public class DungeonGenerator
 
             cycleId++;
         }
+        
+        Debug.Log("CORRIDORS: " + map.Corridors.Count);
 
         // Place start points and mission points
-        DefineLandmarks(map);
+        // DefineLandmarks(map);
 
         // Create shortcuts
-        AddShortcuts(map);
+        // AddShortcuts(map);
         return map;
     }
 
@@ -88,9 +93,9 @@ public class DungeonGenerator
 
             while (true)
             {
-                Vector2 start = cycle.Rooms[UnityEngine.Random.Range(0, cycle.Rooms.Count)];
-                Vector2 end = GetOpositeRoom(map, id, start, null);
-                List<Vector2> path = BFSPath(start, end, cycle.Rooms.ToHashSet());
+                Vector2Int start = cycle.Rooms[UnityEngine.Random.Range(0, cycle.Rooms.Count)];
+                Vector2Int end = GetOpositeRoom(map, id, start, null);
+                List<Vector2Int> path = BFSPath(start, end, cycle.Rooms.ToHashSet());
                 if (path.Count == 0) continue;
                 bool isValid = map.AddShortcut(path);
                 if (isValid)
@@ -109,24 +114,24 @@ public class DungeonGenerator
 
         int currentCycle = cycleKeys[UnityEngine.Random.Range(0, cycleKeys.Count)];
 
-        Vector2 currentCoords = map.Cycles[currentCycle]
+        Vector2Int currentCoords = map.Cycles[currentCycle]
                 .Rooms[UnityEngine.Random.Range(
                     0,
                     map.Cycles[currentCycle].Rooms.Count)];
 
-        Vector2 initialCoords = currentCoords;
+        Vector2Int initialCoords = currentCoords;
 
         HashSet<int> visitedCycles = new HashSet<int>();
 
-        HashSet<Vector2> markedRooms =
-            new HashSet<Vector2> { currentCoords };
+        HashSet<Vector2Int> markedRooms =
+            new HashSet<Vector2Int> { currentCoords };
 
-        List<Vector2> roomsOnCycle =
-            new List<Vector2> { currentCoords };
+        List<Vector2Int> roomsOnCycle =
+            new List<Vector2Int> { currentCoords };
 
         while (true)
         {
-            Vector2 opositeRoomCoords = currentCoords;
+            Vector2Int opositeRoomCoords = currentCoords;
 
             while (roomsOnCycle.Count < 2)
             {
@@ -211,11 +216,11 @@ public class DungeonGenerator
             cfg.maxLandmarks);
     }
 
-    private Vector2 GetOpositeRoom(
+    private Vector2Int GetOpositeRoom(
         Map map,
         int cycleId,
-        Vector2 point,
-        HashSet<Vector2> markedPoints)
+        Vector2Int point,
+        HashSet<Vector2Int> markedPoints)
     {
         var cycle = map.Cycles[cycleId];
 
@@ -240,10 +245,10 @@ public class DungeonGenerator
         return cycle.Rooms[opositeRoomIdx];
     }
 
-    private Vector2 GetFurthestPoint(
-        List<Vector2> candidates,
-        List<Vector2> currentPoints,
-        HashSet<Vector2> markedPoints)
+    private Vector2Int GetFurthestPoint(
+        List<Vector2Int> candidates,
+        List<Vector2Int> currentPoints,
+        HashSet<Vector2Int> markedPoints)
     {
         if (candidates.Count == 0)
             throw new Exception("Candidates list is empty");
@@ -256,7 +261,7 @@ public class DungeonGenerator
 
         for (int i = 0; i < candidates.Count; i++)
         {
-            Vector2 candidate = candidates[i];
+            Vector2Int candidate = candidates[i];
 
             float minDist = float.PositiveInfinity;
 
@@ -289,24 +294,24 @@ public class DungeonGenerator
         return candidates[bestCandidateIdx];
     }
 
-    private HashSet<Vector2> ReduceMarkedPoints(
+    private HashSet<Vector2Int> ReduceMarkedPoints(
         Map map,
-        HashSet<Vector2> markedPoints,
+        HashSet<Vector2Int> markedPoints,
         int maxMarkedPoints)
     {
         if (maxMarkedPoints <= 0)
-            return new HashSet<Vector2>();
+            return new HashSet<Vector2Int>();
 
-        HashSet<Vector2> marked = new HashSet<Vector2>(markedPoints);
+        HashSet<Vector2Int> marked = new HashSet<Vector2Int>(markedPoints);
 
-        HashSet<Vector2> possiblePoints = new HashSet<Vector2>(map.Rooms.Keys);
+        HashSet<Vector2Int> possiblePoints = new HashSet<Vector2Int>(map.Rooms.Keys);
 
         while (marked.Count > maxMarkedPoints)
         {
-            List<Vector2> markedList =
+            List<Vector2Int> markedList =
                 marked.ToList();
 
-            (Vector2, Vector2)? bestPair = null;
+            (Vector2Int, Vector2Int)? bestPair = null;
 
             float bestDist = float.PositiveInfinity;
 
@@ -316,8 +321,8 @@ public class DungeonGenerator
             {
                 for (int j = i + 1; j < markedList.Count; j++)
                 {
-                    Vector2 a = markedList[i];
-                    Vector2 b = markedList[j];
+                    Vector2Int a = markedList[i];
+                    Vector2Int b = markedList[j];
 
                     Room roomA = map.Rooms[a];
                     Room roomB = map.Rooms[b];
@@ -343,19 +348,19 @@ public class DungeonGenerator
 
             if (bestPair == null) break;
 
-            Vector2 pa = bestPair.Value.Item1;
-            Vector2 pb = bestPair.Value.Item2;
+            Vector2Int pa = bestPair.Value.Item1;
+            Vector2Int pb = bestPair.Value.Item2;
 
             Room roomPa = map.Rooms[pa];
             Room roomPb = map.Rooms[pb];
 
             // PATH MIDPOINT
 
-            List<Vector2> path = BFSPath(pa, pb, possiblePoints);
+            List<Vector2Int> path = BFSPath(pa, pb, possiblePoints);
 
             if (path.Count == 0)
             {
-                Vector2 victim = roomPb.Type != RoomType.START ? pb : pa;
+                Vector2Int victim = roomPb.Type != RoomType.START ? pb : pa;
 
                 marked.Remove(victim);
 
@@ -367,11 +372,11 @@ public class DungeonGenerator
 
 
             // DEGENERATE MIDPOINT FIX
-            Vector2 midpoint = path[path.Count / 2];
+            Vector2Int midpoint = path[path.Count / 2];
             if (midpoint == pa || midpoint == pb)
             {
                 bool found = false;
-                Vector2 replacement = default;
+                Vector2Int replacement = default;
 
                 foreach (var n in midpoint.Neighbors())
                 {
@@ -388,7 +393,7 @@ public class DungeonGenerator
 
                 if (!found)
                 {
-                    Vector2 victim = roomPb.Type != RoomType.START ? pb : pa;
+                    Vector2Int victim = roomPb.Type != RoomType.START ? pb : pa;
 
                     marked.Remove(victim);
 
@@ -429,24 +434,24 @@ public class DungeonGenerator
         return marked;
     }
 
-    private List<Vector2> BFSPath(
-        Vector2 start,
-        Vector2 goal,
-        HashSet<Vector2> possiblePoints)
+    private List<Vector2Int> BFSPath(
+        Vector2Int start,
+        Vector2Int goal,
+        HashSet<Vector2Int> possiblePoints)
     {
-        Queue<Vector2> queue =
-            new Queue<Vector2>();
+        Queue<Vector2Int> queue =
+            new Queue<Vector2Int>();
 
         queue.Enqueue(start);
 
-        Dictionary<Vector2, Vector2?> cameFrom = new Dictionary<Vector2, Vector2?>
+        Dictionary<Vector2Int, Vector2Int?> cameFrom = new Dictionary<Vector2Int, Vector2Int?>
         {
             [start] = null
         };
 
         while (queue.Count > 0)
         {
-            Vector2 current = queue.Dequeue();
+            Vector2Int current = queue.Dequeue();
 
             if (current.Equals(goal))
                 break;
@@ -464,13 +469,13 @@ public class DungeonGenerator
         }
 
         if (!cameFrom.ContainsKey(goal))
-            return new List<Vector2>();
+            return new List<Vector2Int>();
 
         // reconstruct path
-        List<Vector2> path =
-            new List<Vector2>();
+        List<Vector2Int> path =
+            new List<Vector2Int>();
 
-        Vector2? currentPath = goal;
+        Vector2Int? currentPath = goal;
 
         while (currentPath != null)
         {
@@ -488,18 +493,18 @@ public class DungeonGenerator
     // TILE EXPANSION
     // ================
 
-    private HashSet<Vector2> ExpandTetrisTiles(
-        HashSet<Vector2> shape)
+    private HashSet<Vector2Int> ExpandTetrisTiles(
+        HashSet<Vector2Int> shape)
     {
-        HashSet<Vector2> vertices =
-            new HashSet<Vector2>();
+        HashSet<Vector2Int> vertices =
+            new HashSet<Vector2Int>();
 
         foreach (var c in shape)
         {
-            vertices.Add(new Vector2(c.x, c.y));
-            vertices.Add(new Vector2(c.x + 1, c.y));
-            vertices.Add(new Vector2(c.x, c.y + 1));
-            vertices.Add(new Vector2(c.x + 1, c.y + 1));
+            vertices.Add(new Vector2Int(c.x, c.y));
+            vertices.Add(new Vector2Int(c.x + 1, c.y));
+            vertices.Add(new Vector2Int(c.x, c.y + 1));
+            vertices.Add(new Vector2Int(c.x + 1, c.y + 1));
         }
 
         return vertices;
@@ -509,121 +514,73 @@ public class DungeonGenerator
     // HULL COMPUTATION
     // ========================
 
-    private List<Vector2> ComputeHull(
-        HashSet<Vector2> points)
+        public static List<Vector2Int> ComputeHull(HashSet<Vector2Int> points)
     {
-        HashSet<(Vector2, Vector2)> segments =
-            GetBoundarySegments(points);
-
-        List<Vector2> loop =
-            TraceLoop(segments);
-
-        return loop;
+        var segments = GetBoundarySegments(points);
+        return TraceLoop(segments);
     }
 
-    private HashSet<(Vector2, Vector2)> GetBoundarySegments(
-        HashSet<Vector2> cells)
+    private static HashSet<(Vector2Int, Vector2Int)> GetBoundarySegments(HashSet<Vector2Int> cells)
     {
-        HashSet<(Vector2, Vector2)> segments =
-            new HashSet<(Vector2, Vector2)>();
+        var segments = new HashSet<(Vector2Int, Vector2Int)>();
 
         foreach (var c in cells)
         {
-            float x = c.x;
-            float y = c.y;
+            int x = c.x, y = c.y;
 
             // left
-            if (!cells.Contains(new Vector2(x - 1, y)))
-            {
-                segments.Add((
-                    new Vector2(x, y),
-                    new Vector2(x, y + 1)
-                ));
-            }
+            if (!cells.Contains(new Vector2Int(x - 1, y)))
+                segments.Add((new Vector2Int(x, y), new Vector2Int(x, y + 1)));
 
             // right
-            if (!cells.Contains(new Vector2(x + 1, y)))
-            {
-                segments.Add((
-                    new Vector2(x + 1, y),
-                    new Vector2(x + 1, y + 1)
-                ));
-            }
+            if (!cells.Contains(new Vector2Int(x + 1, y)))
+                segments.Add((new Vector2Int(x + 1, y), new Vector2Int(x + 1, y + 1)));
 
             // top
-            if (!cells.Contains(new Vector2(x, y - 1)))
-            {
-                segments.Add((
-                    new Vector2(x, y),
-                    new Vector2(x + 1, y)
-                ));
-            }
+            if (!cells.Contains(new Vector2Int(x, y - 1)))
+                segments.Add((new Vector2Int(x, y), new Vector2Int(x + 1, y)));
 
             // bottom
-            if (!cells.Contains(new Vector2(x, y + 1)))
-            {
-                segments.Add((
-                    new Vector2(x, y + 1),
-                    new Vector2(x + 1, y + 1)
-                ));
-            }
+            if (!cells.Contains(new Vector2Int(x, y + 1)))
+                segments.Add((new Vector2Int(x, y + 1), new Vector2Int(x + 1, y + 1)));
         }
 
         return segments;
     }
 
-    private List<Vector2> TraceLoop(
-        HashSet<(Vector2, Vector2)> segments)
+    private static List<Vector2Int> TraceLoop(HashSet<(Vector2Int, Vector2Int)> segments)
     {
-        Dictionary<Vector2, List<Vector2>> graph =
-            new Dictionary<Vector2, List<Vector2>>();
+        var graph = new Dictionary<Vector2Int, List<Vector2Int>>();
 
-        foreach (var seg in segments)
+        foreach (var (a, b) in segments)
         {
-            Vector2 a = seg.Item1;
-            Vector2 b = seg.Item2;
-
-            if (!graph.ContainsKey(a)) graph[a] = new List<Vector2>();
-            if (!graph.ContainsKey(b)) graph[b] = new List<Vector2>();
-
+            if (!graph.ContainsKey(a)) graph[a] = new List<Vector2Int>();
+            if (!graph.ContainsKey(b)) graph[b] = new List<Vector2Int>();
             graph[a].Add(b);
             graph[b].Add(a);
         }
 
-        Vector2 start =
-            graph.Keys
-                .OrderBy(v => v.x)
-                .ThenBy(v => v.y)
-                .First();
+        var start = graph.Keys.OrderBy(v => v.x).ThenBy(v => v.y).First();
+        var current = start;
+        Vector2Int? prev = null;
 
-        Vector2 current = start;
-        Vector2? prev = null;
-
-        List<Vector2> loop = new List<Vector2> { start };
+        var loop = new List<Vector2Int> { start };
 
         while (true)
         {
-            List<Vector2> neighbors = graph[current];
+            var neighbors = graph[current];
+            Vector2Int next;
 
-            Vector2 next;
-
-            if (prev == null)
-            {
+            if (prev is null)
                 next = neighbors[0];
-            }
             else
-            {
-                next = neighbors[0].Equals(prev)
-                        ? neighbors[1]
-                        : neighbors[0];
-            }
+                next = neighbors[1] == prev.Value ? neighbors[0] : neighbors[1];
 
             prev = current;
             current = next;
-
             loop.Add(current);
 
-            if (current.Equals(start))
+            if (current == start)
                 break;
         }
 

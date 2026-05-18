@@ -41,6 +41,27 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Ground
+    uniqueID: 2748172415
+    locked: 0
+  - name: Ground2
+    uniqueID: 2705663959
+    locked: 0
+  - name: Collision
+    uniqueID: 1822539843
+    locked: 0
+  - name: WalkInFront
+    uniqueID: 3647908451
+    locked: 0
+  - name: Beings
+    uniqueID: 2945706351
+    locked: 0
+  - name: WalkBehind
+    uniqueID: 4045408061
+    locked: 0
+  - name: Decor
+    uniqueID: 2675275001
+    locked: 0
   - name: UI
     uniqueID: 2748951407
     locked: 0

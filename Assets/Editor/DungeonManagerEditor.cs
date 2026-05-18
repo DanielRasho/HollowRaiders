@@ -14,6 +14,7 @@ public class DungeonManagerEditor : Editor
         {
             Undo.RecordObject(manager, "Generate Dungeon"); // makes it ctrl+Z-able
             manager.Generate();
+            manager.ExportAsciiMap();
             EditorUtility.SetDirty(manager); // marks scene as changed
         }
         

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Map
 {
-    public Dictionary<Vector2, Room> Rooms = new();
+    public Dictionary<Vector2Int, Room> Rooms = new();
 
     public Dictionary<string, Corridor> Corridors = new();
 
@@ -17,17 +17,16 @@ public class Map
     public void AddCycle(
         int cycleId,
         List<Room> rooms,
-        HashSet<Vector2> points
+        HashSet<Vector2Int> points
     )
     {
-        MapCycle newCycle =
-            new MapCycle(cycleId, points);
+        MapCycle newCycle = new MapCycle(cycleId, points);
 
         Cycles[cycleId] = newCycle;
 
         foreach (Room r in rooms)
         {
-            Vector2 id = r.Id();
+            Vector2Int id = r.Id();
 
             Rooms.TryAdd(id, r);
 
@@ -44,8 +43,7 @@ public class Map
         {
             int nextIdx = (i + 1) % rooms.Count;
 
-            Corridor corridor =
-                new Corridor(rooms[i], rooms[nextIdx]);
+            Corridor corridor = new Corridor(rooms[i], rooms[nextIdx]);
 
             if (Corridors.TryAdd(corridor.Id, corridor))
             {
@@ -58,13 +56,13 @@ public class Map
         }
     }
 
-    public bool AddShortcut(List<Vector2> points)
+    public bool AddShortcut(List<Vector2Int> points)
     {
-        List<Vector2> rooms = new();
+        List<Vector2Int> rooms = new();
 
         List<string> corridors = new();
 
-        foreach (Vector2 p in points)
+        foreach (Vector2Int p in points)
         {
             if (!Rooms.ContainsKey(p))
             {
@@ -121,7 +119,7 @@ public class Map
         b.Connections.Add(c);
     }
 
-    public HashSet<int> GetRoomCycles(Vector2 roomId)
+    public HashSet<int> GetRoomCycles(Vector2Int roomId)
     {
         HashSet<int> cycles = new();
 
@@ -138,7 +136,7 @@ public class Map
     
     public void ActivateShortcut( MapShortcut shortcut, bool newStatus)
     {
-        foreach (Vector2 r in shortcut.Rooms)
+        foreach (Vector2Int r in shortcut.Rooms)
         {
             Rooms[r].Activate(newStatus);
         }

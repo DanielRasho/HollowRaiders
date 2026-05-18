@@ -5,11 +5,11 @@ public class MapCycle
 {
     public int Id;
 
-    public List<Vector2> Rooms = new();
+    public List<Vector2Int> Rooms = new();
 
-    public HashSet<Vector2> AllPoints = new();
+    public HashSet<Vector2Int> AllPoints = new();
 
-    public MapCycle(int id, HashSet<Vector2> allPoints)
+    public MapCycle(int id, HashSet<Vector2Int> allPoints)
     {
         Id = id;
         AllPoints = allPoints;

@@ -14,20 +14,20 @@ public class Room
 {
     [SerializeField] public RoomType Type;
 
-    public Vector2 Coords;
+    public Vector2Int Coords;
 
     [SerializeField] public bool Active = true;
 
     public List<Corridor> Connections = new();
 
-    public Room( RoomType type, Vector2 coords, bool active = true)
+    public Room( RoomType type, Vector2Int coords, bool active = true)
     {
         Type = type;
         Coords = coords;
         Active = active;
     }
 
-    public Vector2 Id()
+    public Vector2Int Id()
     {
         return Coords;
     }

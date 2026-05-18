@@ -6,7 +6,7 @@ public class TetrisTile
 {
     public int Id;
 
-    public HashSet<Vector2> Cells = new();
+    public HashSet<Vector2Int> Cells = new();
 
     public HashSet<int> Neighbors = new();
 
@@ -15,7 +15,7 @@ public class TetrisTile
         Id = id;
     }
 
-    public void AddCell(Vector2 cell)
+    public void AddCell(Vector2Int cell)
     {
         Cells.Add(cell);
     }
@@ -51,16 +51,16 @@ public class TetrisTilemap
 
         while (true)
         {
-            List<Vector2> unassigned =
+            List<Vector2Int> unassigned =
                 GetUnassigned();
 
             if (unassigned.Count == 0)
                 break;
 
-            Vector2 seed =
+            Vector2Int seed =
                 PickLowestUnassigned(unassigned);
 
-            HashSet<Vector2> region =
+            HashSet<Vector2Int> region =
                 GetTilesCells(seed);
 
             // Small leftover region
@@ -69,7 +69,7 @@ public class TetrisTilemap
                 TetrisTile tile =
                     new TetrisTile(tileId);
 
-                foreach (Vector2 cell in region)
+                foreach (Vector2Int cell in region)
                 {
                     Grid[(int)cell.x, (int)cell.y] =
                         tileId;
@@ -85,7 +85,7 @@ public class TetrisTilemap
             }
 
             // Grow shape
-            HashSet<Vector2> tileCells = null;
+            HashSet<Vector2Int> tileCells = null;
 
             for (
                 int i = 0;
@@ -101,7 +101,7 @@ public class TetrisTilemap
 
             if (tileCells == null)
             {
-                tileCells = new HashSet<Vector2>()
+                tileCells = new HashSet<Vector2Int>()
                 {
                     seed
                 };
@@ -110,7 +110,7 @@ public class TetrisTilemap
             TetrisTile newTile =
                 new TetrisTile(tileId);
 
-            foreach (Vector2 cell in tileCells)
+            foreach (Vector2Int cell in tileCells)
             {
                 Grid[(int)cell.x, (int)cell.y] =
                     tileId;
@@ -135,7 +135,7 @@ public class TetrisTilemap
         Tiles.Clear();
     }
 
-    private bool InBounds(Vector2 v)
+    private bool InBounds(Vector2Int v)
     {
         return
             v.x >= 0 &&
@@ -144,9 +144,9 @@ public class TetrisTilemap
             v.y < Config.height;
     }
 
-    private List<Vector2> GetUnassigned()
+    private List<Vector2Int> GetUnassigned()
     {
-        List<Vector2> result = new();
+        List<Vector2Int> result = new();
 
         for (int x = 0; x < Config.width; x++)
         {
@@ -154,7 +154,7 @@ public class TetrisTilemap
             {
                 if (Grid[x, y] == null)
                 {
-                    result.Add(new Vector2(x, y));
+                    result.Add(new Vector2Int(x, y));
                 }
             }
         }
@@ -162,14 +162,14 @@ public class TetrisTilemap
         return result;
     }
 
-    private Vector2 PickLowestUnassigned(
-        List<Vector2> unassigned
+    private Vector2Int PickLowestUnassigned(
+        List<Vector2Int> unassigned
     )
     {
         float minY =
             unassigned.Min(v => v.y);
 
-        List<Vector2> candidates =
+        List<Vector2Int> candidates =
             unassigned
                 .Where(v => v.y == minY)
                 .ToList();
@@ -179,9 +179,9 @@ public class TetrisTilemap
         ];
     }
 
-    private HashSet<Vector2> GrowShape(Vector2 seed)
+    private HashSet<Vector2Int> GrowShape(Vector2Int seed)
     {
-        HashSet<Vector2> shape =
+        HashSet<Vector2Int> shape =
             new() { seed };
 
         for (
@@ -193,13 +193,13 @@ public class TetrisTilemap
             if (shape.Count >= Config.maxShapeSize)
                 break;
 
-            HashSet<Vector2> candidates =
+            HashSet<Vector2Int> candidates =
                 new();
 
-            foreach (Vector2 cell in shape)
+            foreach (Vector2Int cell in shape)
             {
                 foreach (
-                    Vector2 n
+                    Vector2Int n
                     in cell.Neighbors()
                 )
                 {
@@ -221,10 +221,10 @@ public class TetrisTilemap
                         : null;
             }
 
-            List<Vector2> candidateList =
+            List<Vector2Int> candidateList =
                 candidates.ToList();
 
-            Vector2 selected =
+            Vector2Int selected =
                 candidateList[
                     rng.Next(candidateList.Count)
                 ];
@@ -238,19 +238,19 @@ public class TetrisTilemap
                 : null;
     }
 
-    private HashSet<Vector2> GetTilesCells(
-        Vector2 seed
+    private HashSet<Vector2Int> GetTilesCells(
+        Vector2Int seed
     )
     {
-        Stack<Vector2> stack = new();
+        Stack<Vector2Int> stack = new();
 
-        HashSet<Vector2> visited = new();
+        HashSet<Vector2Int> visited = new();
 
         stack.Push(seed);
 
         while (stack.Count > 0)
         {
-            Vector2 current =
+            Vector2Int current =
                 stack.Pop();
 
             if (visited.Contains(current))
@@ -272,7 +272,7 @@ public class TetrisTilemap
             visited.Add(current);
 
             foreach (
-                Vector2 n
+                Vector2Int n
                 in current.Neighbors()
             )
             {
@@ -310,11 +310,11 @@ public class TetrisTilemap
                 if (currentId == null)
                     continue;
 
-                Vector2 current =
-                    new Vector2(x, y);
+                Vector2Int current =
+                    new Vector2Int(x, y);
 
                 foreach (
-                    Vector2 n
+                    Vector2Int n
                     in current.Neighbors()
                 )
                 {
@@ -431,7 +431,7 @@ public class TetrisTilemap
                 new TetrisTile(cid);
 
             newTile.Cells =
-                new HashSet<Vector2>(
+                new HashSet<Vector2Int>(
                     oldTile.Cells
                 );
 
@@ -439,7 +439,7 @@ public class TetrisTilemap
                 newTile;
 
             foreach (
-                Vector2 cell
+                Vector2Int cell
                 in newTile.Cells
             )
             {

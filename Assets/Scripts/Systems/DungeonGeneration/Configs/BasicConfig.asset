@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b7beecb07d1ad747a70d84d7f1af58a, type: 3}
   m_Name: BasicConfig
   m_EditorClassIdentifier: Assembly-CSharp::MapConfig
-  Width: 10
-  Height: 10
-  MinShapeSize: 2
-  MaxShapeSize: 5
-  MaxGrowthAttempts: 20
-  NumCycles: 4
+  width: 10
+  height: 10
+  minShapeSize: 2
+  maxShapeSize: 4
+  maxGrowthAttempts: 20
+  numCycles: 4
+  maxLandmarks: 5
+  max_active_shorcuts: 0

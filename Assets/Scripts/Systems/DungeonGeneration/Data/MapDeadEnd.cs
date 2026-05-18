@@ -5,7 +5,7 @@ public class MapDeadEnd
 {
     public int Id;
 
-    public List<Vector2> Rooms = new();
+    public List<Vector2Int> Rooms = new();
 
     public MapDeadEnd(int id)
     {
