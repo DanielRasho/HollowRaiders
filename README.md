@@ -17,15 +17,19 @@ Plan your path, adapt to the unknown, and lead your team through the chaos.
 
 ## 🎮 Demo
 
-▶️ https://youtu.be/9hU7kZU2RC8
+▶️ https://youtu.be/iKBrpOy1PXw
 
 ---
 
 ## ⌨️ Controls
 
-| Action | Key  |
-| ------ | ---- |
-| Move   | WASD |
+| Action   | Key    |
+|----------|--------|
+| Move     | WASD   |
+| Interact | E      |
+| Sprint   | Shift  |
+| Map      | M      |
+| Pause    | Escape |
 
 ---
 
