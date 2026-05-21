@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class DungeonManager : MonoBehaviour
 {
     
     [SerializeField] private MapConfig cfg;
     [SerializeField] private ContentAutomata automata;
-    [SerializeField] private Room_Legacy roomPrefab;
-    [SerializeField] private Room_Legacy corridorPrefab;
+    [SerializeField] private RoomsDB roomDatabase;
+    [SerializeField] private CorridorsDB corridorDB;
 
     private DungeonGenerator generator;
     private Map map;
@@ -20,7 +21,8 @@ public class DungeonManager : MonoBehaviour
     }
     void Start()
     {
-        generator = new DungeonGenerator(cfg);
+        this.Generate();
+        this.RenderMap();
     }
 
     public void Generate()
@@ -28,10 +30,14 @@ public class DungeonManager : MonoBehaviour
         EnsureInitialized();
         // Generate Tetris texture
         TetrisTilemap tilemap = new TetrisTilemap(this.cfg);
+        Debug.Log("Generate Tetris texture");
         tilemap.Generate();
+        Debug.Log("Build Chain");
         List<int> chain = tilemap.BuildChain();
+        Debug.Log("Filter Chain");
         tilemap = tilemap.FilterToChain(chain);
 
+        Debug.Log("GENERATING MAP");
         // Generate Map
         map = generator.Generate(tilemap);
         
@@ -45,11 +51,11 @@ public class DungeonManager : MonoBehaviour
         {
             for (int i = transform.childCount - 1; i >= 0; i--)
             {
-#if UNITY_EDITOR
+                #if UNITY_EDITOR
                 DestroyImmediate(transform.GetChild(i).gameObject);
-#else
-            Destroy(roomContainer.GetChild(i).gameObject);
-#endif
+                #else
+                Destroy(roomContainer.GetChild(i).gameObject);
+                #endif
             }
         }
     }
@@ -58,15 +64,54 @@ public class DungeonManager : MonoBehaviour
     {
         
     }
+
+    public void RenderMap()
+    {
+        // FIND MAP BOUNDS
+
+        int minX = int.MaxValue;
+        int maxX = int.MinValue;
+
+        int minY = int.MaxValue;
+        int maxY = int.MinValue;
+
+        foreach (Room room in map.Rooms.Values)
+        {
+            Vector2Int p = room.Coords;
+
+            minX = Mathf.Min(minX, p.x);
+            maxX = Mathf.Max(maxX, p.x);
+
+            minY = Mathf.Min(minY, p.y);
+            maxY = Mathf.Max(maxY, p.y);
+        }
+        
+        // PLACE ROOMS 
+        
+        foreach (Room room in map.Rooms.Values)
+        {
+            Vector2Int p = room.Coords;
+
+            int gx = (p.x - minX) * (cfg.RoomSize.x + cfg.HorizontalCorridorSize.x);
+            int gy = (p.y - minY) * (cfg.RoomSize.y + cfg.VerticalCorridorSize.x);
+
+            // invert y for text output
+            // gy = height - 1 - gy;
+
+            RoomView roomView = roomDatabase.FindMatch(cfg.RoomSize.x, cfg.RoomSize.y, RoomType.ANY);
+
+            if (roomView != null)
+            {
+                Vector3 position = new Vector3(gx, gy, 0);
+                RoomView instance = Instantiate(roomView, position, Quaternion.identity, transform);
+            }
+        }
+        
+    }
+    
     
     public void ExportAsciiMap(string fileName = "dungeon_map.txt")
     {
-        if (map == null)
-        {
-            Debug.LogWarning("Map is null");
-            return;
-        }
-
         // =====================================
         // FIND MAP BOUNDS
         // =====================================
@@ -99,11 +144,9 @@ public class DungeonManager : MonoBehaviour
         // height = logicalHeight * 2 - 1
         // =====================================
 
-        int width =
-            (maxX - minX + 1) * 2 - 1;
+        int width = (maxX - minX + 1) * 2 - 1;
 
-        int height =
-            (maxY - minY + 1) * 2 - 1;
+        int height = (maxY - minY + 1) * 2 - 1;
 
         char[,] grid = new char[height, width];
 

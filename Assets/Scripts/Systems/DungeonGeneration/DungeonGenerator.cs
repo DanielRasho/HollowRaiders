@@ -35,6 +35,7 @@ public class DungeonGenerator
 
         foreach (var tile in tilemap.Tiles.Values)
         {
+            Debug.Log("Expand Tetris Tiles");
             HashSet<Vector2Int> points = ExpandTetrisTiles(tile.Cells);
 
             // Keep track of points
@@ -50,6 +51,7 @@ public class DungeonGenerator
                 }
             }
 
+            Debug.Log("Compute Hull");
             // Create rooms
             List<Vector2Int> loop = ComputeHull(tile.Cells);
             
@@ -65,6 +67,7 @@ public class DungeonGenerator
                 );
             }
 
+            Debug.Log("Insert Cycle");
             map.AddCycle(cycleId, rooms, points);
 
             cycleId++;
@@ -73,10 +76,12 @@ public class DungeonGenerator
         Debug.Log("CORRIDORS: " + map.Corridors.Count);
 
         // Place start points and mission points
-        // DefineLandmarks(map);
+        Debug.Log("Define Landmarks");
+        DefineLandmarks(map);
 
         // Create shortcuts
-        // AddShortcuts(map);
+        Debug.Log("Add shortcuts");
+        AddShortcuts(map);
         return map;
     }
 
@@ -91,7 +96,7 @@ public class DungeonGenerator
             int id = kv.Key;
             var cycle = kv.Value;
 
-            while (true)
+            for (int i = 0; i < 1000; i++)
             {
                 Vector2Int start = cycle.Rooms[UnityEngine.Random.Range(0, cycle.Rooms.Count)];
                 Vector2Int end = GetOpositeRoom(map, id, start, null);

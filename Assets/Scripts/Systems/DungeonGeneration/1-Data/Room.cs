@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum RoomType
 {
+    ANY = -2,
     UNASSIGNED = -1,
     START = 0,
     BATTLE = 1,

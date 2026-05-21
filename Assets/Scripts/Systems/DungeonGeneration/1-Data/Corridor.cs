@@ -46,4 +46,15 @@ public class Corridor
     {
         Active = newStatus;
     }
+
+    public void DefineType(Room a, Room b)
+    {
+        if (a.Coords.x == b.Coords.x)
+        {
+            this.Type = CorridorType.HORIZONTAL;
+        } else
+        {
+            this.Type = CorridorType.VERTICAL;
+        }
+    }
 }

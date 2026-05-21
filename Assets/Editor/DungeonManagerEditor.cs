@@ -13,8 +13,10 @@ public class DungeonManagerEditor : Editor
         if (GUILayout.Button("Generate Dungeon"))
         {
             Undo.RecordObject(manager, "Generate Dungeon"); // makes it ctrl+Z-able
+            manager.ResetMap();
             manager.Generate();
-            manager.ExportAsciiMap();
+            // manager.ExportAsciiMap();
+            manager.RenderMap();
             EditorUtility.SetDirty(manager); // marks scene as changed
         }
         

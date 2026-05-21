@@ -17,6 +17,9 @@ MonoBehaviour:
   minShapeSize: 2
   maxShapeSize: 4
   maxGrowthAttempts: 20
-  numCycles: 4
+  numCycles: 3
   maxLandmarks: 5
   max_active_shorcuts: 0
+  RoomSize: {x: 26, y: 14}
+  VerticalCorridorSize: {x: 11, y: 6}
+  HorizontalCorridorSize: {x: 11, y: 4}

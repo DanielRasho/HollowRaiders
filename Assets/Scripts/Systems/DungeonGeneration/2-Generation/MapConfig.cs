@@ -19,4 +19,8 @@ public class MapConfig : ScriptableObject
     [Header("Dungeon Modification")]
     public int max_active_shorcuts = 3;
     
+    [Header("Blocks")]
+    public Vector2Int RoomSize = Vector2Int.zero;
+    public Vector2Int VerticalCorridorSize = Vector2Int.zero; // X for lenght and Y for thickniess
+    public Vector2Int HorizontalCorridorSize = Vector2Int.zero; // X for lenght and Y for thickniess
 }
