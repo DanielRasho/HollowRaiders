@@ -66,11 +66,9 @@ public class Map
         {
             if (!Rooms.ContainsKey(p))
             {
-                Room newRoom =
-                    new Room(RoomType.UNASSIGNED, p, true);
-
+                Room newRoom = new Room(RoomType.UNASSIGNED, p, true);
+                newRoom.isFromShortcut = true;
                 Rooms[p] = newRoom;
-
                 rooms.Add(p);
             }
         }
@@ -81,11 +79,9 @@ public class Map
         for (int i = 0; i < points.Count - 1; i++)
         {
             Room room = Rooms[points[i]];
-
             Room nextRoom = Rooms[points[i + 1]];
-
-            Corridor corridor =
-                new Corridor(room, nextRoom);
+            Corridor corridor = new Corridor(room, nextRoom);
+            corridor.isFromShortcut = true;
 
             if (!Corridors.ContainsKey(corridor.Id))
             {

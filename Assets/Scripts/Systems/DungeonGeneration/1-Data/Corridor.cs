@@ -1,3 +1,4 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
 
 public enum CorridorType
@@ -10,11 +11,12 @@ public class Corridor
 {
     public string Id;
 
-    [SerializeField] public CorridorType Type;
+    public CorridorType Type;
 
     public Room A;
     public Room B;
-
+    
+    public bool isFromShortcut = false;
     public bool Active = true;
 
     public Corridor(Room a, Room b)
@@ -35,6 +37,8 @@ public class Corridor
         Type = Mathf.Abs(A.Coords.x - B.Coords.x) > 0
             ? CorridorType.HORIZONTAL
             : CorridorType.VERTICAL;
+        
+        DefineType(a, b);
     }
 
     private string BuildId()
@@ -47,14 +51,24 @@ public class Corridor
         Active = newStatus;
     }
 
-    public void DefineType(Room a, Room b)
+    private void DefineType(Room a, Room b)
     {
         if (a.Coords.x == b.Coords.x)
         {
-            this.Type = CorridorType.HORIZONTAL;
+            Type = CorridorType.VERTICAL;
         } else
         {
-            this.Type = CorridorType.VERTICAL;
+            Type = CorridorType.HORIZONTAL;
         }
+    }
+
+    public Room GetBottomMost()
+    {
+        return A.Coords.y < B.Coords.y ? A : B;
+    }
+
+    public Room GetLeftMost()
+    {
+        return A.Coords.x < B.Coords.x ? A : B;
     }
 }

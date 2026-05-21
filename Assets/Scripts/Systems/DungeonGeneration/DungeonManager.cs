@@ -90,23 +90,84 @@ public class DungeonManager : MonoBehaviour
         
         foreach (Room room in map.Rooms.Values)
         {
-            Vector2Int p = room.Coords;
-
-            int gx = (p.x - minX) * (cfg.RoomSize.x + cfg.HorizontalCorridorSize.x);
-            int gy = (p.y - minY) * (cfg.RoomSize.y + cfg.VerticalCorridorSize.x);
-
-            // invert y for text output
-            // gy = height - 1 - gy;
+            if (room.isFromShortcut)
+            {
+                continue;
+            }
+            
+            Vector2Int p = GetRoomPositionInWorld(room, minX, minY);
 
             RoomView roomView = roomDatabase.FindMatch(cfg.RoomSize.x, cfg.RoomSize.y, RoomType.ANY);
 
             if (roomView != null)
             {
-                Vector3 position = new Vector3(gx, gy, 0);
+                Vector3 position = new Vector3(p.x, p.y, 0);
                 RoomView instance = Instantiate(roomView, position, Quaternion.identity, transform);
             }
         }
+        foreach (Corridor corridor in map.Corridors.Values)
+        {
+            if (corridor.isFromShortcut)
+            {
+                continue;
+            }
+            
+            Room a = corridor.A;
+            Room b = corridor.B;
+            
+            Vector2Int ap = a.Coords;
+            Vector2Int bp = b.Coords;
+
+            int x = 0;
+            int y = 0;
+            CorridorView prefab = null;
+            
+            if (corridor.Type == CorridorType.HORIZONTAL)
+            {
+
+                Room room = corridor.GetLeftMost();
+                Vector2Int originPos = GetRoomPositionInWorld(room, minX, minY);
+
+                x = originPos.x + cfg.RoomSize.x;
+                y = originPos.y + (cfg.RoomSize.y / 2) - (cfg.HorizontalCorridorSize.y / 2);
+                
+                prefab = corridorDB.FindMatch(cfg.HorizontalCorridorSize.x, 
+                    cfg.HorizontalCorridorSize.y, CorridorType.HORIZONTAL);
+            }
+            else
+            {
+                Room room = corridor.GetBottomMost();
+                Vector2Int originPos = GetRoomPositionInWorld(room, minX, minY);
+
+                x = originPos.x + (cfg.RoomSize.x / 2) - (cfg.HorizontalCorridorSize.x / 2) + 2;
+                y = originPos.y + cfg.RoomSize.y;
+                
+                prefab = corridorDB.FindMatch(cfg.VerticalCorridorSize.y, 
+                    cfg.VerticalCorridorSize.x, CorridorType.VERTICAL);
+            }
+
+            Vector3 corridorPosition = new Vector3(x, y, 0);
+            if (prefab != null)
+            {
+                Instantiate(
+                    prefab,
+                    corridorPosition,
+                    Quaternion.identity,
+                    transform
+                );
+            }
+        }
         
+    }
+
+    public Vector2Int GetRoomPositionInWorld(Room a, int offsetX, int offsetY)
+    {
+        Vector2Int p = a.Coords;
+
+        return new Vector2Int(
+            (p.x - offsetX) * (cfg.RoomSize.x + cfg.HorizontalCorridorSize.x),
+            (p.y - offsetY) * (cfg.RoomSize.y + cfg.VerticalCorridorSize.x)
+            );
     }
     
     

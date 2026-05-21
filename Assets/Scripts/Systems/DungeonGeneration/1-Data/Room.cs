@@ -20,6 +20,8 @@ public class Room
     [SerializeField] public bool Active = true;
 
     public List<Corridor> Connections = new();
+    
+    public bool isFromShortcut = false; // Used just for easy of check during map generation.
 
     public Room( RoomType type, Vector2Int coords, bool active = true)
     {
