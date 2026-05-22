@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class DungeonManager : MonoBehaviour
 {
-    
+    [SerializeField] private int seed; // TODO: To control randomness
     [SerializeField] private MapConfig cfg;
     [SerializeField] private ContentAutomata automata;
     [SerializeField] private RoomsDB roomDatabase;
@@ -60,7 +60,9 @@ public class DungeonManager : MonoBehaviour
     
     public void ModifyMap()
     {
+        // Select random shortcuts
         
+        // Iterate over each shortcut
     }
 
     public void RenderMap()
