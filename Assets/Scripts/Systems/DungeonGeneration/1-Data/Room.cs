@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum RoomType
@@ -17,17 +18,24 @@ public class Room
 
     public Vector2Int Coords;
 
-    [SerializeField] public bool Active = true;
+    [SerializeField] public bool IsActive = true;
 
     public List<Corridor> Connections = new();
     
     public bool isFromShortcut = false; // Used just for easy of check during map generation.
 
-    public Room( RoomType type, Vector2Int coords, bool active = true)
+    private RoomView view;
+
+    public RoomView View
+    {
+        set => view = value;
+    }
+
+    public Room( RoomType type, Vector2Int coords, bool isActive = true)
     {
         Type = type;
         Coords = coords;
-        Active = active;
+        IsActive = isActive;
     }
 
     public Vector2Int Id()
@@ -37,6 +45,52 @@ public class Room
 
     public void Activate(bool newStatus)
     {
-        Active = newStatus;
+        IsActive = newStatus;
+    }
+
+    public void StartView()
+    {
+        view.Populate();
+        view.FillWithEnemies();
+        UpdateView();
+    }
+
+    public void UpdateView()
+    {
+        view.Activate(IsActive);
+
+        if (!IsActive) return;
+
+        bool north = true;
+        bool east = true;
+        bool south = true;
+        bool west = true;
+
+        foreach (var corridor in Connections)
+        {
+            if (!corridor.Active) continue;
+            
+            var a = corridor.A;
+            var b = corridor.B;
+            Room other = a.Id() == Id() ? b : a;
+
+            if (corridor.Type == CorridorType.HORIZONTAL)
+            {
+                if (Coords.x < other.Coords.x)
+                    east = false;
+                else
+                    west = false;
+            }
+            else
+            {
+                if (Coords.y < other.Coords.y)
+                    north = false;
+                else
+                    south = false;
+            }
+        }
+        
+        view.SetExits(north, east, south, west);
+
     }
 }

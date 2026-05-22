@@ -38,24 +38,28 @@ public class Map
 
         if (rooms.Count <= 1)
             return;
-
+        
         for (int i = 0; i < rooms.Count; i++)
         {
-            int nextIdx = (i + 1) % rooms.Count;
-
-            Corridor corridor = new Corridor(rooms[i], rooms[nextIdx]);
-
-            if (Corridors.TryAdd(corridor.Id, corridor))
-            {
-                JoinRooms(
-                    rooms[i],
-                    rooms[nextIdx],
-                    corridor
-                );
-            }
+            int nextIdx = (i + 1) % (rooms.Count);
+            // All rooms were created if necessary in the previous step,
+            // use those rooms instead of the placeholders in rooms.
+            Vector2Int roomId = rooms[i].Id();
+            Vector2Int nextRoomId = rooms[nextIdx].Id();
+            
+            Corridor corridor = new Corridor(Rooms[roomId], Rooms[nextRoomId]);
+            
+            Corridors.TryAdd(corridor.Id, corridor);
+            
+            JoinRooms(
+                Rooms[roomId],
+                Rooms[nextRoomId],
+                corridor
+            );
         }
     }
 
+    // All shorcuts have its components disabled by default;
     public bool AddShortcut(List<Vector2Int> points)
     {
         List<Vector2Int> rooms = new();
@@ -67,7 +71,7 @@ public class Map
             if (!Rooms.ContainsKey(p))
             {
                 Room newRoom = new Room(RoomType.UNASSIGNED, p, true);
-                newRoom.isFromShortcut = true;
+                newRoom.Activate(false);
                 Rooms[p] = newRoom;
                 rooms.Add(p);
             }
@@ -81,12 +85,11 @@ public class Map
             Room room = Rooms[points[i]];
             Room nextRoom = Rooms[points[i + 1]];
             Corridor corridor = new Corridor(room, nextRoom);
-            corridor.isFromShortcut = true;
+            
+            corridor.Activate(false);
 
-            if (!Corridors.ContainsKey(corridor.Id))
+            if (Corridors.TryAdd(corridor.Id, corridor))
             {
-                Corridors[corridor.Id] = corridor;
-
                 corridors.Add(corridor.Id);
 
                 JoinRooms(
@@ -99,9 +102,7 @@ public class Map
 
         if (rooms.Count > 0 || corridors.Count > 0)
         {
-            Shortcuts.Add(
-                new MapShortcut(rooms, corridors)
-            );
+            Shortcuts.Add( new MapShortcut(rooms, corridors));
 
             return true;
         }
@@ -111,8 +112,10 @@ public class Map
 
     void JoinRooms( Room a, Room b, Corridor c)
     {
-        a.Connections.Add(c);
-        b.Connections.Add(c);
+        if (!a.Connections.Contains(c))
+            a.Connections.Add(c);
+        if (!b.Connections.Contains(c))
+            b.Connections.Add(c);
     }
 
     public HashSet<int> GetRoomCycles(Vector2Int roomId)

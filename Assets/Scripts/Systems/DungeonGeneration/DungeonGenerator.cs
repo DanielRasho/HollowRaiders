@@ -35,7 +35,7 @@ public class DungeonGenerator
 
         foreach (var tile in tilemap.Tiles.Values)
         {
-            Debug.Log("Expand Tetris Tiles");
+            // Debug.Log("Expand Tetris Tiles");
             HashSet<Vector2Int> points = ExpandTetrisTiles(tile.Cells);
 
             // Keep track of points
@@ -51,36 +51,37 @@ public class DungeonGenerator
                 }
             }
 
-            Debug.Log("Compute Hull");
+            // Debug.Log("Compute Hull");
             // Create rooms
             List<Vector2Int> loop = ComputeHull(tile.Cells);
             
-            Debug.Log(loop.Count);
-            Debug.Log(points.Count);
+            // Debug.Log(loop.Count);
+            // Debug.Log(points.Count);
 
             List<Room> rooms = new List<Room>();
 
             foreach (var p in loop)
             {
+                // Template of the room if it does not exist
                 rooms.Add(
                     new Room(RoomType.UNASSIGNED, p, true)
                 );
             }
 
-            Debug.Log("Insert Cycle");
+            // Debug.Log("Insert Cycle");
             map.AddCycle(cycleId, rooms, points);
 
             cycleId++;
         }
         
-        Debug.Log("CORRIDORS: " + map.Corridors.Count);
+        // Debug.Log("CORRIDORS: " + map.Corridors.Count);
 
         // Place start points and mission points
-        Debug.Log("Define Landmarks");
+        // Debug.Log("Define Landmarks");
         DefineLandmarks(map);
 
         // Create shortcuts
-        Debug.Log("Add shortcuts");
+        // Debug.Log("Add shortcuts");
         AddShortcuts(map);
         return map;
     }
@@ -569,7 +570,7 @@ public class DungeonGenerator
         var current = start;
         Vector2Int? prev = null;
 
-        var loop = new List<Vector2Int> { start };
+        var loop = new List<Vector2Int>();
 
         while (true)
         {

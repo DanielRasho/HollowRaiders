@@ -43,7 +43,7 @@ public class Corridor
 
     private string BuildId()
     {
-        return $"f{A.Id().Id()}-{B.Id().Id()}";
+        return $"{A.Id().Id()}-{B.Id().Id()}";
     }
 
     public void Activate(bool newStatus)
@@ -70,5 +70,17 @@ public class Corridor
     public Room GetLeftMost()
     {
         return A.Coords.x < B.Coords.x ? A : B;
+    }
+    public override bool Equals(object obj)
+    {
+        if (obj is not Corridor other)
+            return false;
+
+        return Id == other.Id;
+    }
+
+    public override int GetHashCode()
+    {
+        return Id.GetHashCode();
     }
 }

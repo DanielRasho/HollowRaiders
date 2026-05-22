@@ -51,17 +51,14 @@ public class TetrisTilemap
 
         while (true)
         {
-            List<Vector2Int> unassigned =
-                GetUnassigned();
+            List<Vector2Int> unassigned = GetUnassigned();
 
             if (unassigned.Count == 0)
                 break;
 
-            Vector2Int seed =
-                PickLowestUnassigned(unassigned);
+            Vector2Int seed = PickLowestUnassigned(unassigned);
 
-            HashSet<Vector2Int> region =
-                GetTilesCells(seed);
+            HashSet<Vector2Int> region = GetTilesCells(seed);
 
             // Small leftover region
             if (region.Count <= Config.minShapeSize)
@@ -87,11 +84,7 @@ public class TetrisTilemap
             // Grow shape
             HashSet<Vector2Int> tileCells = null;
 
-            for (
-                int i = 0;
-                i < Config.maxGrowthAttempts;
-                i++
-            )
+            for (int i = 0; i < Config.maxGrowthAttempts; i++)
             {
                 tileCells = GrowShape(seed);
 
@@ -344,27 +337,18 @@ public class TetrisTilemap
 
     public List<int> BuildChain()
     {
-        List<int> ids =
-            Tiles.Keys.ToList();
+        List<int> ids = Tiles.Keys.ToList();
 
         while (true)
         {
-            int start =
-                ids[rng.Next(ids.Count)];
+            int start = ids[rng.Next(ids.Count)];
 
-            if (
-                Tiles[start].Cells.Count <= 1
-            )
-            {
+            if (Tiles[start].Cells.Count <= 1)
                 continue;
-            }
 
-            List<int> chain =
-                new() { start };
+            List<int> chain = new() { start };
 
-            while (
-                chain.Count < Config.numCycles
-            )
+            while (chain.Count < Config.numCycles)
             {
                 int current =
                     chain[^1];

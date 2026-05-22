@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class RoomView : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class RoomView : MonoBehaviour
     [SerializeField] private Collider2D South;
     [SerializeField] private Collider2D West;
 
+    
     public void Populate()
     {
         PlaceForniture();
@@ -32,6 +34,11 @@ public class RoomView : MonoBehaviour
     {
         
     }
+
+    public void Activate(bool status)
+    {
+        gameObject.SetActive(status);
+    }
     
     public void PlaceForniture()
     {
@@ -40,7 +47,10 @@ public class RoomView : MonoBehaviour
 
     public void SetExits(bool north, bool east, bool south, bool west)
     {
-        
+        North.enabled = north;
+        East.enabled = east;
+        South.enabled = south;
+        West.enabled = west;
     }
 
     private void OnDrawGizmos()

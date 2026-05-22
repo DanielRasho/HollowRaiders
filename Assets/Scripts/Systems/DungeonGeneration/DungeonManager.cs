@@ -90,7 +90,7 @@ public class DungeonManager : MonoBehaviour
         
         foreach (Room room in map.Rooms.Values)
         {
-            if (room.isFromShortcut)
+            if (!room.IsActive)
             {
                 continue;
             }
@@ -103,11 +103,14 @@ public class DungeonManager : MonoBehaviour
             {
                 Vector3 position = new Vector3(p.x, p.y, 0);
                 RoomView instance = Instantiate(roomView, position, Quaternion.identity, transform);
+
+                room.View = instance;
+                room.StartView();
             }
         }
         foreach (Corridor corridor in map.Corridors.Values)
         {
-            if (corridor.isFromShortcut)
+            if (!corridor.Active)
             {
                 continue;
             }
@@ -124,7 +127,6 @@ public class DungeonManager : MonoBehaviour
             
             if (corridor.Type == CorridorType.HORIZONTAL)
             {
-
                 Room room = corridor.GetLeftMost();
                 Vector2Int originPos = GetRoomPositionInWorld(room, minX, minY);
 
@@ -157,7 +159,6 @@ public class DungeonManager : MonoBehaviour
                 );
             }
         }
-        
     }
 
     public Vector2Int GetRoomPositionInWorld(Room a, int offsetX, int offsetY)
