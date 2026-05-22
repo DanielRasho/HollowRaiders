@@ -9,6 +9,19 @@ public class DungeonManagerEditor : Editor
         DrawDefaultInspector(); // draws your serialized fields normally
 
         DungeonManager manager = (DungeonManager)target;
+        
+        EditorGUILayout.Space();
+        
+        EditorGUILayout.LabelField(
+            "Dungeon Statistics",
+            EditorStyles.boldLabel
+        );
+        EditorGUILayout.LabelField(
+            "Shortcut Count",
+            manager.ShortcutCount().ToString()
+        );
+        
+        EditorGUILayout.Space();
 
         if (GUILayout.Button("Generate Dungeon"))
         {
@@ -17,6 +30,7 @@ public class DungeonManagerEditor : Editor
             manager.Generate();
             manager.ExportAsciiMap();
             manager.RenderMap();
+            manager.ModifyMap();
             EditorUtility.SetDirty(manager); // marks scene as changed
         }
         

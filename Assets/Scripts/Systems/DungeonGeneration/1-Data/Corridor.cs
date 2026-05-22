@@ -55,6 +55,8 @@ public class Corridor
     {
         IsActive = newStatus;
         UpdateView();
+        A.UpdateView();
+        B.UpdateView();
     }
 
     private void DefineType(Room a, Room b)

@@ -135,14 +135,15 @@ public class Map
     
     public void ActivateShortcut( MapShortcut shortcut, bool newStatus)
     {
+        // The order is important so the rooms can check which colliders to activate.
+        foreach (string c in shortcut.Corridors)
+        {
+            Corridors[c].Activate(newStatus);
+        }
         foreach (Vector2Int r in shortcut.Rooms)
         {
             Rooms[r].Activate(newStatus);
         }
 
-        foreach (string c in shortcut.Corridors)
-        {
-            Corridors[c].Activate(newStatus);
-        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -14,6 +15,11 @@ public class DungeonManager : MonoBehaviour
 
     private DungeonGenerator generator;
     private Map map;
+
+    public int ShortcutCount()
+    {
+        return map != null ? map.Shortcuts.Count : 0;
+    } 
     
     private void EnsureInitialized()
     {
@@ -61,8 +67,17 @@ public class DungeonManager : MonoBehaviour
     public void ModifyMap()
     {
         // Select random shortcuts
-        
+        List<int> selectedShorcuts = Randomness.PickRandomIndexes(
+            map.Shortcuts.Count, 
+            Math.Min(map.Shortcuts.Count, cfg.max_active_shorcuts));
+
         // Iterate over each shortcut
+        for (int i = 0; i < map.Shortcuts.Count; i++)
+        {
+            MapShortcut s = map.Shortcuts[i];
+            bool shouldActivate = selectedShorcuts.Contains(i) ? true : false;
+            map.ActivateShortcut(s, shouldActivate);
+        }
     }
 
     public void RenderMap()
