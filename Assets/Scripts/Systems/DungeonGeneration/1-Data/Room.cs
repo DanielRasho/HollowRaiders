@@ -46,6 +46,7 @@ public class Room
     public void Activate(bool newStatus)
     {
         IsActive = newStatus;
+        UpdateView();
     }
 
     public void StartView()
@@ -57,6 +58,8 @@ public class Room
 
     public void UpdateView()
     {
+        if (view == null) return;
+        
         view.Activate(IsActive);
 
         if (!IsActive) return;
@@ -68,7 +71,7 @@ public class Room
 
         foreach (var corridor in Connections)
         {
-            if (!corridor.Active) continue;
+            if (!corridor.IsActive) continue;
             
             var a = corridor.A;
             var b = corridor.B;

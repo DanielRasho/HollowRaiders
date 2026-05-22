@@ -27,4 +27,9 @@ public class CorridorView : MonoBehaviour
         Gizmos.DrawLine(br, bl);
         Gizmos.DrawLine(bl, tl);
     }
+    
+    public void Activate(bool status)
+    {
+        gameObject.SetActive(status);
+    }
 }

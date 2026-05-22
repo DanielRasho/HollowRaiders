@@ -40,8 +40,6 @@ public class DungeonManager : MonoBehaviour
         Debug.Log("GENERATING MAP");
         // Generate Map
         map = generator.Generate(tilemap);
-        
-        // RenderMap();
     }
 
     public void ResetMap()
@@ -90,11 +88,6 @@ public class DungeonManager : MonoBehaviour
         
         foreach (Room room in map.Rooms.Values)
         {
-            if (!room.IsActive)
-            {
-                continue;
-            }
-            
             Vector2Int p = GetRoomPositionInWorld(room, minX, minY);
 
             RoomView roomView = roomDatabase.FindMatch(cfg.RoomSize.x, cfg.RoomSize.y, RoomType.ANY);
@@ -110,11 +103,6 @@ public class DungeonManager : MonoBehaviour
         }
         foreach (Corridor corridor in map.Corridors.Values)
         {
-            if (!corridor.Active)
-            {
-                continue;
-            }
-            
             Room a = corridor.A;
             Room b = corridor.B;
             
@@ -151,12 +139,14 @@ public class DungeonManager : MonoBehaviour
             Vector3 corridorPosition = new Vector3(x, y, 0);
             if (prefab != null)
             {
-                Instantiate(
+                CorridorView view = Instantiate(
                     prefab,
                     corridorPosition,
                     Quaternion.identity,
                     transform
                 );
+                corridor.View = view;
+                corridor.UpdateView();
             }
         }
     }

@@ -16,8 +16,13 @@ public class Corridor
     public Room A;
     public Room B;
     
-    public bool isFromShortcut = false;
-    public bool Active = true;
+    public bool IsActive = true;
+
+    private CorridorView view;
+    public CorridorView View
+    {
+        set => view = value;
+    }
 
     public Corridor(Room a, Room b)
     {
@@ -48,7 +53,8 @@ public class Corridor
 
     public void Activate(bool newStatus)
     {
-        Active = newStatus;
+        IsActive = newStatus;
+        UpdateView();
     }
 
     private void DefineType(Room a, Room b)
@@ -82,5 +88,12 @@ public class Corridor
     public override int GetHashCode()
     {
         return Id.GetHashCode();
+    }
+
+    public void UpdateView()
+    {
+        if (view == null) return;
+        
+        view.Activate(IsActive);
     }
 }
