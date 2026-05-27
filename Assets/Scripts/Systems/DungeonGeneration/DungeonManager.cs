@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class DungeonManager : MonoBehaviour
 {
@@ -27,8 +26,8 @@ public class DungeonManager : MonoBehaviour
     }
     void Start()
     {
-        this.Generate();
-        this.RenderMap();
+        Generate();
+        RenderMap();
     }
 
     public void Generate()
@@ -45,7 +44,7 @@ public class DungeonManager : MonoBehaviour
 
         Debug.Log("GENERATING MAP");
         // Generate Map
-        map = generator.Generate(tilemap);
+        map = generator.Generate(tilemap,automata);
     }
 
     public void ResetMap()
@@ -107,7 +106,8 @@ public class DungeonManager : MonoBehaviour
         {
             Vector2Int p = GetRoomPositionInWorld(room, minX, minY);
 
-            RoomView roomView = roomDatabase.FindMatch(cfg.RoomSize.x, cfg.RoomSize.y, RoomType.ANY);
+            Debug.Log("Room Type " +  room.Type);
+            RoomView roomView = roomDatabase.FindMatch(cfg.RoomSize.x, cfg.RoomSize.y, room.Type);
 
             if (roomView != null)
             {

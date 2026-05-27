@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: RoomsDB
   m_EditorClassIdentifier: Assembly-CSharp::RoomsDB
   entries:
+  - {fileID: 1698303148680072588, guid: ea5326dd729734345adab5d8a05854be, type: 3}
+  - {fileID: 1698303148680072588, guid: fd5e134877670654382d776717d58866, type: 3}
+  - {fileID: 1698303148680072588, guid: 52a2bd18402ec6d4780777c31729a813, type: 3}
+  - {fileID: 1698303148680072588, guid: 1a7eb09c0659dc348abbec5a86f87eb0, type: 3}
+  - {fileID: 1698303148680072588, guid: 3335b342f8322a242a0730504f59ac63, type: 3}
   - {fileID: 1698303148680072588, guid: abf78f13b891cf54aa0170c209a555bd, type: 3}

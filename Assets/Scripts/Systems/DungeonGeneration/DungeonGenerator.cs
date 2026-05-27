@@ -7,14 +7,13 @@ public class DungeonGenerator
 {
 
     private MapConfig cfg;
-    private ContentAutomata automata;
     
     public DungeonGenerator(MapConfig config)
     {
         cfg = config;
     }
 
-    public Map Generate(TetrisTilemap tilemap)
+    public Map Generate(TetrisTilemap tilemap, ContentAutomata automata)
     {
         /*
         // CREATE TETRIS TEXTURE
@@ -83,7 +82,51 @@ public class DungeonGenerator
         // Create shortcuts
         // Debug.Log("Add shortcuts");
         AddShortcuts(map);
+        
+        DefineRoomTypes(map, automata);
+        
         return map;
+    }
+    
+    // ======================
+    // DEFINE ROOM TYPES
+    // ======================
+    private void DefineRoomTypes(Map map, ContentAutomata automata)
+    {
+        // CYCLES
+        foreach (var kvp in map.Cycles)
+        {
+            var cycle = kvp.Value;
+            
+            // Find first defined room
+            int currentRoomIdx = 0;
+            for (int i = 0; i < cycle.Rooms.Count; i++)
+            {
+                if (map.Rooms[cycle.Rooms[i]].Type != RoomType.UNASSIGNED)
+                {
+                    currentRoomIdx = i;
+                }
+            }
+
+            for (int i = 0; i < cycle.Rooms.Count - 1; i++)
+            {
+                int nextRoomIdx = (currentRoomIdx + 1) % cycle.Rooms.Count;
+                Room nextRoom = map.Rooms[cycle.Rooms[nextRoomIdx]];
+                if (nextRoom.Type != RoomType.UNASSIGNED)
+                {
+                    currentRoomIdx = nextRoomIdx;
+                    continue;
+                };
+
+                Room currentRoom = map.Rooms[cycle.Rooms[currentRoomIdx]];
+                AutomataState nextState = automata.GetNext(currentRoom.Type);
+                nextRoom.Type = nextState.type;
+                currentRoomIdx = nextRoomIdx;
+            }
+            
+        }
+        
+        // SHORTCUTS
     }
 
     // ======================
@@ -118,22 +161,19 @@ public class DungeonGenerator
     {
         List<int> cycleKeys = map.Cycles.Keys.ToList();
 
-        int currentCycle = cycleKeys[UnityEngine.Random.Range(0, cycleKeys.Count)];
+        int startCycleIdx = UnityEngine.Random.Range(0, cycleKeys.Count);
 
-        Vector2Int currentCoords = map.Cycles[currentCycle]
-                .Rooms[UnityEngine.Random.Range(
-                    0,
-                    map.Cycles[currentCycle].Rooms.Count)];
+        int currentCycle = cycleKeys[startCycleIdx];
 
+        int startRoomIdx = UnityEngine.Random.Range(
+            0,
+            map.Cycles[currentCycle].Rooms.Count);
+        
+        Vector2Int currentCoords = map.Cycles[currentCycle].Rooms[startRoomIdx];
         Vector2Int initialCoords = currentCoords;
-
         HashSet<int> visitedCycles = new HashSet<int>();
-
-        HashSet<Vector2Int> markedRooms =
-            new HashSet<Vector2Int> { currentCoords };
-
-        List<Vector2Int> roomsOnCycle =
-            new List<Vector2Int> { currentCoords };
+        HashSet<Vector2Int> markedRooms = new HashSet<Vector2Int> { currentCoords };
+        List<Vector2Int> roomsOnCycle = new List<Vector2Int> { currentCoords };
 
         while (true)
         {
@@ -141,15 +181,13 @@ public class DungeonGenerator
 
             while (roomsOnCycle.Count < 2)
             {
-                opositeRoomCoords =
-                    GetOpositeRoom(
+                opositeRoomCoords = GetOpositeRoom(
                         map,
                         currentCycle,
                         currentCoords,
                         markedRooms);
 
-                Room opositeRoom =
-                    map.Rooms[opositeRoomCoords];
+                Room opositeRoom = map.Rooms[opositeRoomCoords];
 
                 opositeRoom.Type = RoomType.MISSION;
 
@@ -170,8 +208,7 @@ public class DungeonGenerator
                 break;
 
             // Choose next cycle
-            HashSet<int> candidateCycles =
-                map.GetRoomCycles(opositeRoomCoords);
+            HashSet<int> candidateCycles = map.GetRoomCycles(opositeRoomCoords);
 
             candidateCycles.ExceptWith(visitedCycles);
 
@@ -179,26 +216,21 @@ public class DungeonGenerator
             {
                 List<int> list = candidateCycles.ToList();
 
-                currentCycle =
-                    list[UnityEngine.Random.Range(0, list.Count)];
+                currentCycle = list[UnityEngine.Random.Range(0, list.Count)];
 
                 markedRooms.Add(currentCoords);
                 roomsOnCycle.Add(currentCoords);
             }
             else
             {
-                candidateCycles =
-                    new HashSet<int>(map.Cycles.Keys);
-
+                candidateCycles = new HashSet<int>(map.Cycles.Keys);
                 candidateCycles.ExceptWith(visitedCycles);
 
                 List<int> list = candidateCycles.ToList();
 
-                currentCycle =
-                    list[UnityEngine.Random.Range(0, list.Count)];
+                currentCycle = list[UnityEngine.Random.Range(0, list.Count)];
 
-                currentCoords =
-                    GetFurthestPoint(
+                currentCoords = GetFurthestPoint(
                         map.Cycles[currentCycle].Rooms,
                         roomsOnCycle,
                         markedRooms);
@@ -334,13 +366,8 @@ public class DungeonGenerator
                     Room roomB = map.Rooms[b];
 
                     // never merge two START rooms
-                    if (
-                        roomA.Type == RoomType.START &&
-                        roomB.Type == RoomType.START
-                    )
-                    {
+                    if (roomA.Type == RoomType.START && roomB.Type == RoomType.START)
                         continue;
-                    }
 
                     float d = a.DistSq(b);
 
@@ -403,8 +430,7 @@ public class DungeonGenerator
 
                     marked.Remove(victim);
 
-                    map.Rooms[victim].Type =
-                        RoomType.UNASSIGNED;
+                    map.Rooms[victim].Type = RoomType.UNASSIGNED;
 
                     continue;
                 }
@@ -424,8 +450,7 @@ public class DungeonGenerator
                 roomPb.Type == RoomType.START
             )
             {
-                map.Rooms[midpoint].Type =
-                    RoomType.START;
+                map.Rooms[midpoint].Type = RoomType.START;
             }
             else
             {

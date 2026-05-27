@@ -12,8 +12,7 @@ public class ContentAutomata : ScriptableObject
     private RoomType startState;
 
     [SerializeField]
-    private List<AutomataState> states =
-        new List<AutomataState>();
+    private List<AutomataState> states = new List<AutomataState>();
 
     private System.Random rng;
 
@@ -23,8 +22,7 @@ public class ContentAutomata : ScriptableObject
     {
         rng = new System.Random(seed);
 
-        lookup =
-            new Dictionary<RoomType, AutomataState>();
+        lookup = new Dictionary<RoomType, AutomataState>();
 
         foreach (var state in states)
         {
@@ -34,8 +32,7 @@ public class ContentAutomata : ScriptableObject
 
     public AutomataState GetState(RoomType type)
     {
-        if (lookup == null)
-            Initialize();
+        if (lookup == null) Initialize();
 
         return lookup[type];
     }
