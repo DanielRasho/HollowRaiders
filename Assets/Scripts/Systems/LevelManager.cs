@@ -1,10 +1,14 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance { get; private set; }
-    [SerializeField] private AudioClip BattleMusic;
+    [SerializeField] private List<AudioClip> BattleSountracks;
+    [SerializeField] private DungeonManager _dungeonManager;
+    public static event Action<Transform> OnSpawnPlayer;
 
     private void Awake()
     {
@@ -15,12 +19,21 @@ public class LevelManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void Start() 
     {
         Input_Manager.Instance.SwitchToMap("Player");
-        AudioManager.Instance.PlayMusic(BattleMusic, true);
+        AudioClip music = BattleSountracks[Random.Range(0, BattleSountracks.Count)];
+        AudioManager.Instance.PlayMusic(music, true);
+        CursorManager.Instance.SetCursor(CursorManager.CursorType.Pointer);
+        
+        // Map Generation
+        _dungeonManager.Generate();
+        _dungeonManager.RenderMap();
+        
+        // Place Player
+        Transform spawnPoint = _dungeonManager.SpawnPoint;
+        OnSpawnPlayer?.Invoke(spawnPoint);
     }
 }

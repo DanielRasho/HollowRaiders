@@ -29,6 +29,7 @@ public class Room
     public RoomView View
     {
         set => view = value;
+        get => view;
     }
 
     public Room( RoomType type, Vector2Int coords, bool isActive = true)

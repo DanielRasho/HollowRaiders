@@ -18,7 +18,11 @@ public class RoomView : MonoBehaviour
     [SerializeField] private Collider2D South;
     [SerializeField] private Collider2D West;
 
-    
+    [Header("Others")] 
+    // OPTIONAL JUST FOR STARTING ROOMS
+    [SerializeField] private Transform spawnpoint;
+    public Transform Spawnpoint => spawnpoint;
+
     public void Populate()
     {
         PlaceForniture();

@@ -14,6 +14,8 @@ public class DungeonManager : MonoBehaviour
 
     private DungeonGenerator generator;
     private Map map;
+    private Transform spawnPoint;
+    public Transform SpawnPoint { get => spawnPoint; }
 
     public int ShortcutCount()
     {
@@ -26,8 +28,6 @@ public class DungeonManager : MonoBehaviour
     }
     void Start()
     {
-        Generate();
-        RenderMap();
     }
 
     public void Generate()
@@ -82,7 +82,6 @@ public class DungeonManager : MonoBehaviour
     public void RenderMap()
     {
         // FIND MAP BOUNDS
-
         int minX = int.MaxValue;
         int maxX = int.MinValue;
 
@@ -116,6 +115,11 @@ public class DungeonManager : MonoBehaviour
 
                 room.View = instance;
                 room.StartView();
+
+                if (room.Type == RoomType.START)
+                {
+                    spawnPoint = room.View.Spawnpoint;
+                }
             }
         }
         foreach (Corridor corridor in map.Corridors.Values)

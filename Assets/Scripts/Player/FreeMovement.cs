@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 public class FreeMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float acceleration = 25f;
+    [SerializeField] private float moveSpeed = 10f;
 
     [Header("Dash")] 
     [SerializeField] private bool enableDash = true;
@@ -37,6 +36,8 @@ public class FreeMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         afterImageTracer = GetComponent<AfterImageTracer>();
 
+        LevelManager.OnSpawnPlayer += SpawnPlayer;
+
         Input_Manager.Instance.Actions.Player.Move.performed += OnMove;
         Input_Manager.Instance.Actions.Player.Move.canceled += OnMove;
 
@@ -63,6 +64,11 @@ public class FreeMovement : MonoBehaviour
         {
             rb.linearVelocity = moveInput * moveSpeed;
         }
+    }
+
+    private void SpawnPlayer(Transform t)
+    {
+        transform.position = t.position;
     }
 
     public void OnMove(InputAction.CallbackContext ctx)

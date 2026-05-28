@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Map
 {
+    public Room spawnRoom;
+    
     public Dictionary<Vector2Int, Room> Rooms = new();
 
     public Dictionary<string, Corridor> Corridors = new();

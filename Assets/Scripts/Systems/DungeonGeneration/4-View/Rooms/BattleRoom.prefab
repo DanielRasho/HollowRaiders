@@ -2147,7 +2147,7 @@ TilemapRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1832338448349941117}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -3261,11 +3261,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomView
   width: 26
   height: 14
-  type: -2
+  type: 1
   North: {fileID: 3463038028444541125}
   East: {fileID: 3655854707096478474}
   South: {fileID: 7241382294414673378}
   West: {fileID: 5178944598066742170}
+  spawnpoint: {fileID: 0}
 --- !u!61 &3463038028444541125
 BoxCollider2D:
   m_ObjectHideFlags: 0

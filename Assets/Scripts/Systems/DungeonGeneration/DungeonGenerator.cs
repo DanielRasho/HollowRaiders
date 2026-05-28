@@ -246,6 +246,7 @@ public class DungeonGenerator
 
         Room start = map.Rooms[initialCoords];
         start.Type = RoomType.START;
+        map.spawnRoom = start;
 
         // Simplify points
         ReduceMarkedPoints(
