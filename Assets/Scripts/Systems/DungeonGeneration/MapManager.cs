@@ -32,6 +32,7 @@ public class MapManager : MonoBehaviour
     private int mapWidth;
     private int mapHeight;
     private Bounds mapBounds;
+    private Bounds uvBounds;
 
     private float currentZoom = 1f;
     private Vector2 panOffset = Vector2.zero;
@@ -72,13 +73,7 @@ public class MapManager : MonoBehaviour
 
     void GenerateMap(Vector2 mapCenter, int width, int height)
     {
-
-        Vector3 position = new Vector3(
-            mapCenter.x,
-            mapCenter.y,
-            -10f
-        );
-
+        Vector3 position = new Vector3(mapCenter.x, mapCenter.y, -10f);
         mapBounds = new Bounds(position, new Vector3(width, height, 0f));
 
         FrameMap();
@@ -96,9 +91,20 @@ public class MapManager : MonoBehaviour
             mapBounds.center.z
         );
 
-        float sizeFromHeight =  mapBounds.size.y * 0.5f + padding;
+        float sizeFromHeight = mapBounds.size.y * 0.5f + padding;
         float sizeFromWidth  = mapBounds.size.x / aspect * 0.5f + padding;
         minimapCamera.orthographicSize = Mathf.Max(sizeFromHeight, sizeFromWidth);
+
+        // Recalculate what the camera actually sees in world space
+        // and store that as the UV bounds — NOT mapBounds
+        float camHeight = minimapCamera.orthographicSize * 2f;
+        float camWidth  = camHeight * aspect;
+
+        Vector3 camCenter = minimapCamera.transform.position;
+        uvBounds = new Bounds(
+            camCenter,
+            new Vector3(camWidth, camHeight, 0f)
+        );
     }
 
     void CreateFogTexture()
@@ -134,12 +140,11 @@ public class MapManager : MonoBehaviour
     }
 
     // ─── World → UV ──────────────────────────────────────────
-
     Vector2 WorldToUV(Vector3 worldPos)
     {
         return new Vector2(
-            Mathf.InverseLerp(mapBounds.min.x, mapBounds.max.x, worldPos.x),
-            Mathf.InverseLerp(mapBounds.min.y, mapBounds.max.y, worldPos.y)
+            Mathf.InverseLerp(uvBounds.min.x, uvBounds.max.x, worldPos.x),
+            Mathf.InverseLerp(uvBounds.min.y, uvBounds.max.y, worldPos.y)
         );
     }
 
