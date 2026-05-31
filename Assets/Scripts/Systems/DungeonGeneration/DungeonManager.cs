@@ -16,6 +16,23 @@ public class DungeonManager : MonoBehaviour
     private Map map;
     private Transform spawnPoint;
     public Transform SpawnPoint { get => spawnPoint; }
+    
+    public int mapWidth = 1;
+    public int mapHeight = 1;
+    public Vector2 mapOrigin;
+    public Vector2 MapOrigin => mapOrigin;
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+
+        Bounds dungeonBounds = new Bounds(
+            transform.position,
+            new Vector3(mapWidth, mapHeight, 0)
+        );
+
+        Gizmos.DrawWireCube(dungeonBounds.center, dungeonBounds.size);
+    }
 
     public int ShortcutCount()
     {
@@ -57,7 +74,7 @@ public class DungeonManager : MonoBehaviour
                 #if UNITY_EDITOR
                 DestroyImmediate(transform.GetChild(i).gameObject);
                 #else
-                Destroy(roomContainer.GetChild(i).gameObject);
+                Destroy(transform.GetChild(i).gameObject);
                 #endif
             }
         }
@@ -74,44 +91,39 @@ public class DungeonManager : MonoBehaviour
         for (int i = 0; i < map.Shortcuts.Count; i++)
         {
             MapShortcut s = map.Shortcuts[i];
-            bool shouldActivate = selectedShorcuts.Contains(i) ? true : false;
+            bool shouldActivate = selectedShorcuts.Contains(i);
             map.ActivateShortcut(s, shouldActivate);
         }
     }
 
     public void RenderMap()
     {
-        // FIND MAP BOUNDS
-        int minX = int.MaxValue;
-        int maxX = int.MinValue;
+        CalculateMapBounds(
+            out int minX,
+            out int maxX,
+            out int minY,
+            out int maxY
+        );
 
-        int minY = int.MaxValue;
-        int maxY = int.MinValue;
-
-        foreach (Room room in map.Rooms.Values)
-        {
-            Vector2Int p = room.Coords;
-
-            minX = Mathf.Min(minX, p.x);
-            maxX = Mathf.Max(maxX, p.x);
-
-            minY = Mathf.Min(minY, p.y);
-            maxY = Mathf.Max(maxY, p.y);
-        }
-        
-        // PLACE ROOMS 
-        
+        // PLACE ROOMS
         foreach (Room room in map.Rooms.Values)
         {
             Vector2Int p = GetRoomPositionInWorld(room, minX, minY);
 
-            Debug.Log("Room Type " +  room.Type);
-            RoomView roomView = roomDatabase.FindMatch(cfg.RoomSize.x, cfg.RoomSize.y, room.Type);
+            RoomView roomView = roomDatabase.FindMatch(
+                    cfg.RoomSize.x,
+                    cfg.RoomSize.y,
+                    room.Type);
 
             if (roomView != null)
             {
-                Vector3 position = new Vector3(p.x, p.y, 0);
-                RoomView instance = Instantiate(roomView, position, Quaternion.identity, transform);
+                RoomView instance =
+                    Instantiate(
+                        roomView,
+                        new Vector3(p.x, p.y, 0),
+                        Quaternion.identity,
+                        transform
+                    );
 
                 room.View = instance;
                 room.StartView();
@@ -122,6 +134,7 @@ public class DungeonManager : MonoBehaviour
                 }
             }
         }
+        
         foreach (Corridor corridor in map.Corridors.Values)
         {
             Room a = corridor.A;
@@ -172,16 +185,78 @@ public class DungeonManager : MonoBehaviour
         }
     }
 
-    public Vector2Int GetRoomPositionInWorld(Room a, int offsetX, int offsetY)
+    private Vector2Int GetRoomPositionInWorld(
+        Room room,
+        int minX,
+        int minY)
     {
-        Vector2Int p = a.Coords;
+        int cellWidth =
+            cfg.RoomSize.x +
+            cfg.HorizontalCorridorSize.x;
+
+        int cellHeight =
+            cfg.RoomSize.y +
+            cfg.VerticalCorridorSize.x;
+
+        float x =
+            mapOrigin.x +
+            (room.Coords.x - minX) * cellWidth;
+
+        float y =
+            mapOrigin.y +
+            (room.Coords.y - minY) * cellHeight;
 
         return new Vector2Int(
-            (p.x - offsetX) * (cfg.RoomSize.x + cfg.HorizontalCorridorSize.x),
-            (p.y - offsetY) * (cfg.RoomSize.y + cfg.VerticalCorridorSize.x)
-            );
+            Mathf.RoundToInt(x),
+            Mathf.RoundToInt(y)
+        );
     }
     
+    private void CalculateMapBounds(
+        out int minX,
+        out int maxX,
+        out int minY,
+        out int maxY)
+    {
+        minX = int.MaxValue;
+        maxX = int.MinValue;
+
+        minY = int.MaxValue;
+        maxY = int.MinValue;
+
+        foreach (Room room in map.Rooms.Values)
+        {
+            Vector2Int p = room.Coords;
+
+            minX = Mathf.Min(minX, p.x);
+            maxX = Mathf.Max(maxX, p.x);
+
+            minY = Mathf.Min(minY, p.y);
+            maxY = Mathf.Max(maxY, p.y);
+        }
+
+        int logicalWidth = maxX - minX + 1;
+        int logicalHeight = maxY - minY + 1;
+
+        int cellWidth =
+            cfg.RoomSize.x +
+            cfg.HorizontalCorridorSize.x;
+
+        int cellHeight =
+            cfg.RoomSize.y +
+            cfg.VerticalCorridorSize.x;
+
+        mapWidth =
+            (logicalWidth - 1) * cellWidth +
+            cfg.RoomSize.x;
+
+        mapHeight =
+            (logicalHeight - 1) * cellHeight +
+            cfg.RoomSize.y;
+
+        mapOrigin = (Vector2)transform.position -
+                    new Vector2(mapWidth, mapHeight) * 0.5f;
+    }
     
     public void ExportAsciiMap(string fileName = "dungeon_map.txt")
     {

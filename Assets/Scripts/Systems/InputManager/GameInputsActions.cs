@@ -399,6 +399,182 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Map"",
+            ""id"": ""d4839235-43d8-4cf2-a332-f3f3564b8f63"",
+            ""actions"": [
+                {
+                    ""name"": ""ZoomIn"",
+                    ""type"": ""Value"",
+                    ""id"": ""369aa7f2-2a92-4dce-bc18-b46aff2ab957"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""ZoomOut"",
+                    ""type"": ""Value"",
+                    ""id"": ""73f2f840-7360-41e0-b7b2-177efa9da4c4"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Pan"",
+                    ""type"": ""Value"",
+                    ""id"": ""9da1a3a0-19ee-4723-9839-dc049eafb752"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Close"",
+                    ""type"": ""Button"",
+                    ""id"": ""df32ff01-7c17-449e-a81e-2d0f57cfeff2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""433b2796-66af-4f53-b210-5ba4ab486d1d"",
+                    ""path"": ""<Mouse>/scroll/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ZoomIn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d2ef3c96-9a4c-4fa6-a49f-d18d9097167f"",
+                    ""path"": ""<Mouse>/scroll/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ZoomOut"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""9e582948-124f-416e-bd48-01c8ac55f261"",
+                    ""path"": ""Dpad"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pan"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""f9e07b23-0b8e-4bbc-a59e-8703c56c9a20"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""efd25523-4ecd-4f24-9d49-a70f52f5445c"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""b35cab6a-fc16-4604-a358-5531d0ac7848"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""d8f437bc-aeb2-4060-8acf-b2a126df137e"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""108f6852-d60b-4323-aedb-2f46bedd9282"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""ea27f002-65ca-4a4a-9f80-fab669dddbbe"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""16291073-d14d-4c15-a7ad-23cdac67c9f4"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""cdd6aa4a-23cb-4c67-a8b3-c0e7ef90d4ea"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Pan"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""547b73d5-e9de-4bb5-bc71-eb4d7fae3dab"",
+                    ""path"": ""<Keyboard>/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""Close"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -474,12 +650,19 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
+        // Map
+        m_Map = asset.FindActionMap("Map", throwIfNotFound: true);
+        m_Map_ZoomIn = m_Map.FindAction("ZoomIn", throwIfNotFound: true);
+        m_Map_ZoomOut = m_Map.FindAction("ZoomOut", throwIfNotFound: true);
+        m_Map_Pan = m_Map.FindAction("Pan", throwIfNotFound: true);
+        m_Map_Close = m_Map.FindAction("Close", throwIfNotFound: true);
     }
 
     ~@GameInputActions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, GameInputActions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, GameInputActions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Map.enabled, "This will cause a leak and performance issues, GameInputActions.Map.Disable() has not been called.");
     }
 
     /// <summary>
@@ -787,6 +970,135 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
+
+    // Map
+    private readonly InputActionMap m_Map;
+    private List<IMapActions> m_MapActionsCallbackInterfaces = new List<IMapActions>();
+    private readonly InputAction m_Map_ZoomIn;
+    private readonly InputAction m_Map_ZoomOut;
+    private readonly InputAction m_Map_Pan;
+    private readonly InputAction m_Map_Close;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Map".
+    /// </summary>
+    public struct MapActions
+    {
+        private @GameInputActions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public MapActions(@GameInputActions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Map/ZoomIn".
+        /// </summary>
+        public InputAction @ZoomIn => m_Wrapper.m_Map_ZoomIn;
+        /// <summary>
+        /// Provides access to the underlying input action "Map/ZoomOut".
+        /// </summary>
+        public InputAction @ZoomOut => m_Wrapper.m_Map_ZoomOut;
+        /// <summary>
+        /// Provides access to the underlying input action "Map/Pan".
+        /// </summary>
+        public InputAction @Pan => m_Wrapper.m_Map_Pan;
+        /// <summary>
+        /// Provides access to the underlying input action "Map/Close".
+        /// </summary>
+        public InputAction @Close => m_Wrapper.m_Map_Close;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Map; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="MapActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(MapActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="MapActions" />
+        public void AddCallbacks(IMapActions instance)
+        {
+            if (instance == null || m_Wrapper.m_MapActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_MapActionsCallbackInterfaces.Add(instance);
+            @ZoomIn.started += instance.OnZoomIn;
+            @ZoomIn.performed += instance.OnZoomIn;
+            @ZoomIn.canceled += instance.OnZoomIn;
+            @ZoomOut.started += instance.OnZoomOut;
+            @ZoomOut.performed += instance.OnZoomOut;
+            @ZoomOut.canceled += instance.OnZoomOut;
+            @Pan.started += instance.OnPan;
+            @Pan.performed += instance.OnPan;
+            @Pan.canceled += instance.OnPan;
+            @Close.started += instance.OnClose;
+            @Close.performed += instance.OnClose;
+            @Close.canceled += instance.OnClose;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="MapActions" />
+        private void UnregisterCallbacks(IMapActions instance)
+        {
+            @ZoomIn.started -= instance.OnZoomIn;
+            @ZoomIn.performed -= instance.OnZoomIn;
+            @ZoomIn.canceled -= instance.OnZoomIn;
+            @ZoomOut.started -= instance.OnZoomOut;
+            @ZoomOut.performed -= instance.OnZoomOut;
+            @ZoomOut.canceled -= instance.OnZoomOut;
+            @Pan.started -= instance.OnPan;
+            @Pan.performed -= instance.OnPan;
+            @Pan.canceled -= instance.OnPan;
+            @Close.started -= instance.OnClose;
+            @Close.performed -= instance.OnClose;
+            @Close.canceled -= instance.OnClose;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="MapActions.UnregisterCallbacks(IMapActions)" />.
+        /// </summary>
+        /// <seealso cref="MapActions.UnregisterCallbacks(IMapActions)" />
+        public void RemoveCallbacks(IMapActions instance)
+        {
+            if (m_Wrapper.m_MapActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="MapActions.AddCallbacks(IMapActions)" />
+        /// <seealso cref="MapActions.RemoveCallbacks(IMapActions)" />
+        /// <seealso cref="MapActions.UnregisterCallbacks(IMapActions)" />
+        public void SetCallbacks(IMapActions instance)
+        {
+            foreach (var item in m_Wrapper.m_MapActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_MapActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="MapActions" /> instance referencing this action map.
+    /// </summary>
+    public MapActions @Map => new MapActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -909,5 +1221,41 @@ public partial class @GameInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnNewaction(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Map" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="MapActions.AddCallbacks(IMapActions)" />
+    /// <seealso cref="MapActions.RemoveCallbacks(IMapActions)" />
+    public interface IMapActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "ZoomIn" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoomIn(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ZoomOut" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnZoomOut(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pan" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPan(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Close" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnClose(InputAction.CallbackContext context);
     }
 }

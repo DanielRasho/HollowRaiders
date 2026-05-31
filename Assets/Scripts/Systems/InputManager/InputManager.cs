@@ -2,14 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum InputMap {
+    PLAYER,
+    UI,
+    MAP,
+}
+
 public class Input_Manager : MonoBehaviour
 {
     public static Input_Manager Instance { get; private set; }
 
     private GameInputActions _actions;
-    
+
     public GameInputActions Actions => _actions;
-    
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -22,8 +28,7 @@ public class Input_Manager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         _actions = new GameInputActions();
-        Debug.Log("Input Actions Enabled");
-        _actions.Enable(); // enable here
+        _actions.Enable();
     }
 
     private void OnDisable()
@@ -31,15 +36,27 @@ public class Input_Manager : MonoBehaviour
         _actions?.Disable();
     }
 
-    // Replace the context switch section
-    public void SwitchToMap(string mapName)
+    private string GetMapName(InputMap map)
     {
-        foreach (var map in _actions.asset.actionMaps)
+        return map switch
         {
-            if (map.name == mapName)
-                map.Enable();
+            InputMap.PLAYER => "Player",
+            InputMap.UI     => "UI",
+            InputMap.MAP    => "Map",
+            _ => throw new ArgumentOutOfRangeException(nameof(map))
+        };
+    }
+
+    public void SwitchToMap(InputMap map)
+    {
+        string mapName = GetMapName(map);
+
+        foreach (var actionMap in _actions.asset.actionMaps)
+        {
+            if (actionMap.name == mapName)
+                actionMap.Enable();
             else
-                map.Disable();
+                actionMap.Disable();
         }
     }
 }

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 147f239a00dcbe04a8bce8b46bf3859d
+guid: 84087be1ea2baf0419f7c9fe480d5c1b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 3071199788001595541
-    second: webview_bg_loading_second_default_0
+      213: -6286456980129158689
+    second: window-mask_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +40,9 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -52,7 +52,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
-  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteBorder: {x: 12, y: 12, z: 12, w: 12}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -113,23 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: webview_bg_loading_second_default_0
+      name: window-mask_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 128
-        height: 128
+        width: 220
+        height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 590171e6fe71f9a20800000000000000
-      internalID: 3071199788001595541
+      spriteID: fd960a30fa402c8a0800000000000000
+      internalID: -6286456980129158689
       vertices: []
       indices: 
       edges: []
@@ -139,7 +139,7 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-    internalID: 0
+    internalID: 1537655665
     vertices: []
     indices: 
     edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      webview_bg_loading_second_default_0: 3071199788001595541
+      window-mask_0: -6286456980129158689
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

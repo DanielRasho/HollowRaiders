@@ -127,6 +127,27 @@ public class DungeonGenerator
         }
         
         // SHORTCUTS
+        foreach (var shorcut in map.Shortcuts)
+        {
+            if (shorcut.Rooms.Count == 0) continue;
+            
+            RoomType lastRooom = RoomType.UNASSIGNED;
+            for (int i = 1; i < shorcut.Rooms.Count; i++)
+            {
+                Vector2Int roomId = shorcut.Rooms[i];
+                if (i == 0)
+                {
+                    map.Rooms[roomId].Type = RoomType.BATTLE;
+                    lastRooom = RoomType.BATTLE;
+                }
+                else
+                {
+                    RoomType type = automata.GetNext(lastRooom).type;
+                    map.Rooms[roomId].Type = type;
+                    lastRooom = type;
+                }
+            }
+        }
     }
 
     // ======================
