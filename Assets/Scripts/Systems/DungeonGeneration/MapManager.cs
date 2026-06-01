@@ -129,9 +129,9 @@ public class MapManager : MonoBehaviour
     void SnapshotMap()
     {
         minimapCamera.targetTexture = mapRenderTexture;
-        minimapCamera.Render();
-        minimapCamera.targetTexture = null;
-        minimapCamera.enabled = false;
+        // minimapCamera.Render();
+        // minimapCamera.targetTexture = null;
+        // minimapCamera.enabled = false;
         
         mapRenderTexture.wrapMode = TextureWrapMode.Clamp;  // ← add this
 
