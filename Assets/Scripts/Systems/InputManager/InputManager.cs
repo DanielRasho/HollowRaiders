@@ -6,6 +6,7 @@ public enum InputMap {
     PLAYER,
     UI,
     MAP,
+    DIALOGUE
 }
 
 public class Input_Manager : MonoBehaviour
@@ -43,6 +44,7 @@ public class Input_Manager : MonoBehaviour
             InputMap.PLAYER => "Player",
             InputMap.UI     => "UI",
             InputMap.MAP    => "Map",
+            InputMap.DIALOGUE    => "Dialogue",
             _ => throw new ArgumentOutOfRangeException(nameof(map))
         };
     }

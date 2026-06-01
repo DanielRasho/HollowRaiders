@@ -10,6 +10,11 @@ public class LevelManager : MonoBehaviour
     public static LevelManager Instance { get; private set; }
     [SerializeField] private List<AudioClip> BattleSountracks;
     [SerializeField] private DungeonManager _dungeonManager;
+    
+    [Header("Debugging")]
+    [SerializeField] private bool positionPlayer = true;
+    
+    // EVENTS
     public static event Action<Transform> OnSpawnPlayer;
     public static event Action<Vector2, int, int> OnStartMinimapGeneration;
     public static event Action OnShowMap;
@@ -37,8 +42,8 @@ public class LevelManager : MonoBehaviour
         _dungeonManager.RenderMap();
         
         // Place Player
-        Transform spawnPoint = _dungeonManager.SpawnPoint;
-        OnSpawnPlayer?.Invoke(spawnPoint);
+        if (positionPlayer)
+            OnSpawnPlayer?.Invoke(_dungeonManager.SpawnPoint);
         
         // Generate Map
         Vector2 mapCenter = new Vector2(

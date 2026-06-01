@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40fcaab1474065e4ebeedd262c24addb, type: 3}
+  m_Name: Boss
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterDefinition
+  id: 3
+  displayName: Etherial
+  voice: {fileID: 8300000, guid: e017c18cf9078c54580ae110024cef62, type: 3}
+  voicePitch: 1
+  emotions:
+  - emotion: 0
+    portrait: {fileID: -7363413924607640347, guid: b19d0fc4437d20a4982c9034d346e851, type: 3}
+  defaultPortrait: {fileID: -7363413924607640347, guid: b19d0fc4437d20a4982c9034d346e851, type: 3}

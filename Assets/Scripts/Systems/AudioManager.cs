@@ -9,10 +9,12 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource musicSourceA;
     [SerializeField] private AudioSource musicSourceB;
     [SerializeField] private AudioSource fxSource;
+    [SerializeField] private AudioSource voiceSource;
 
     [Header("Default Volumes")]
     [Range(0f, 1f)] [SerializeField] private float musicVolume = 0.5f;
     [Range(0f, 1f)] [SerializeField] private float fxVolume    = 1f;
+    [Range(0f, 1f)] [SerializeField] private float voiceVolume    = 1f;
 
     [Header("Music Settings")]
     [SerializeField] private float fadeDuration = 1.5f;
@@ -53,6 +55,8 @@ public class AudioManager : MonoBehaviour
 
         // Setup FX
         fxSource.volume = fxVolume;
+        
+        voiceSource.volume = voiceVolume;
     }
 
     #region Music
@@ -133,6 +137,16 @@ public class AudioManager : MonoBehaviour
     {
         if (clip == null) return;
         AudioSource.PlayClipAtPoint(clip, position, fxVolume);
+    }
+
+    #endregion
+
+    #region Voice
+
+    public void PlayVoice(AudioClip voice, float pitch = 1f)
+    {
+        voiceSource.pitch = pitch;
+        voiceSource.PlayOneShot(voice, voiceVolume);
     }
 
     #endregion

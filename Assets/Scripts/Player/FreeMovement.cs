@@ -42,9 +42,6 @@ public class FreeMovement : MonoBehaviour
         Input_Manager.Instance.Actions.Player.Move.canceled += OnMove;
 
         Input_Manager.Instance.Actions.Player.Sprint.performed += OnDash;
-
-        Input_Manager.Instance.Actions.Player.Interact.performed += OnInteract;
-        Input_Manager.Instance.Actions.Player.Interact.canceled += OnInteract;
     }
 
     private void OnDisable()
@@ -53,9 +50,6 @@ public class FreeMovement : MonoBehaviour
         Input_Manager.Instance.Actions.Player.Move.canceled -= OnMove;
 
         Input_Manager.Instance.Actions.Player.Sprint.performed -= OnDash;
-
-        Input_Manager.Instance.Actions.Player.Interact.performed -= OnInteract;
-        Input_Manager.Instance.Actions.Player.Interact.canceled -= OnInteract;
     }
 
     void Update()
