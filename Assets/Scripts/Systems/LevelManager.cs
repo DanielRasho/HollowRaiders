@@ -147,6 +147,8 @@ public class LevelManager : MonoBehaviour
                 .Unload(SceneDatabase.Scenes.Game)
                 .WithOverlay()
                 .Perform();
+        
+        _dungeonManager.ModifyMap();
     }
 
     private void UpdateMissionCountUI()
