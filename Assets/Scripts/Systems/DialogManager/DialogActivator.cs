@@ -30,6 +30,7 @@ public class DialogActivator : MonoBehaviour, IInteractable
         if (shouldIncreaseMissioncount && !missionVisited)
         {
             LevelManager.Instance?.IncreaseMissionCount();
+            missionVisited = true;
         }
     }
 
