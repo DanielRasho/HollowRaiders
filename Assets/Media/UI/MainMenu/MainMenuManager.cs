@@ -5,7 +5,6 @@ using UnityEngine;
 public class MainMenuManager : MonoBehaviour
 {
     [SerializeField] private GameObject MainMenu;
-    [SerializeField] private GameObject Levels;
     [SerializeField] private AudioClip music;
 
     private void Start()
@@ -15,16 +14,9 @@ public class MainMenuManager : MonoBehaviour
         showMainMenu();
     }
 
-    public void showLevels()
-    {
-        MainMenu.SetActive(false);
-        Levels.SetActive(true);
-    }
-    
     public void showMainMenu()
     {
         MainMenu.SetActive(true);
-        Levels.SetActive(false);
     }
 
     public void OnExit()
@@ -32,12 +24,12 @@ public class MainMenuManager : MonoBehaviour
         Application.Quit();
     }
     
-    public void OnPlayLvl(int lvl)
+    public void Play()
     {
         SceneGameManager.Instance
             .NewTransition()
             .Load(SceneDatabase.Slots.Session, SceneDatabase.Scenes.Session)
-            .Load(SceneDatabase.Scenes.Game, SceneDatabase.Scenes.Game, true)
+            .Load(SceneDatabase.Scenes.Intro, SceneDatabase.Scenes.Intro, true)
             .Unload(SceneDatabase.Scenes.MainMenu)
             .WithOverlay()
             .Perform();

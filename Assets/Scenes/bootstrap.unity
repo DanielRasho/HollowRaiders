@@ -155,6 +155,7 @@ MonoBehaviour:
   voiceSource: {fileID: 831580301}
   musicVolume: 0.5
   fxVolume: 1
+  voiceVolume: 1
   fadeDuration: 1.5
 --- !u!4 &494082257
 Transform:

@@ -11,8 +11,12 @@ public class DialogActivator : MonoBehaviour, IInteractable
     [Header("Dialogue")]
     public List<DialogLine> lines = new();
 
+    [SerializeField] private bool shouldIncreaseMissioncount = false;
+
     private static readonly int IsActiveHash = Animator.StringToHash("isActive");
     public static event Action<DialogActivator> OnStartDialogue;
+
+    private bool missionVisited;
 
     public bool CanInteract()
     {
@@ -22,6 +26,11 @@ public class DialogActivator : MonoBehaviour, IInteractable
     public void Interact()
     {
         OnStartDialogue?.Invoke(this);
+
+        if (shouldIncreaseMissioncount && !missionVisited)
+        {
+            LevelManager.Instance?.IncreaseMissionCount();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

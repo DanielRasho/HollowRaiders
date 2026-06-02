@@ -116,12 +116,12 @@ TextureImporter:
       name: Think_0
       rect:
         serializedVersion: 2
-        x: 179
-        y: 44
-        width: 437
-        height: 791
+        x: 0
+        y: 0
+        width: 768
+        height: 936
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f195187c42721ea4580b30e9b217f24f
     internalID: 0
     vertices: []
     indices: 

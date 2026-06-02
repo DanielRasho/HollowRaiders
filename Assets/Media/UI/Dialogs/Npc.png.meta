@@ -116,12 +116,12 @@ TextureImporter:
       name: Npc_0
       rect:
         serializedVersion: 2
-        x: 236
-        y: 32
-        width: 332
-        height: 824
+        x: 0
+        y: 0
+        width: 768
+        height: 936
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -138,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e54a279bbf053304c9e652b4639d1e3b
     internalID: 0
     vertices: []
     indices: 

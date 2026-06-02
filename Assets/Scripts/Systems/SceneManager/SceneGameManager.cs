@@ -31,7 +31,7 @@ public class SceneGameManager : MonoBehaviour
     private void Start()
     {
         var active = SceneManager.GetActiveScene();
-        loadedSceneBySlot["MainMenu"] = active.name;
+        loadedSceneBySlot[active.name] = active.name;
     }
 
     // API
