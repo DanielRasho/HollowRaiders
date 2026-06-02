@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -38,20 +39,30 @@ public class FreeMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
         afterImageTracer = GetComponent<AfterImageTracer>();
 
-        LevelManager.OnSpawnPlayer += SpawnPlayer;
-
         Input_Manager.Instance.Actions.Player.Move.performed += OnMove;
         Input_Manager.Instance.Actions.Player.Move.canceled += OnMove;
 
         Input_Manager.Instance.Actions.Player.Sprint.performed += OnDash;
     }
 
+    private void Awake()
+    {
+        LevelManager.OnSpawnPlayer += SpawnPlayer;
+    }
+
     private void OnDisable()
     {
+        
+        LevelManager.OnSpawnPlayer -= SpawnPlayer;
         Input_Manager.Instance.Actions.Player.Move.performed -= OnMove;
         Input_Manager.Instance.Actions.Player.Move.canceled -= OnMove;
 
         Input_Manager.Instance.Actions.Player.Sprint.performed -= OnDash;
+    }
+
+    private void OnDestroy()
+    {
+        LevelManager.OnSpawnPlayer -= SpawnPlayer;
     }
 
     void Update()

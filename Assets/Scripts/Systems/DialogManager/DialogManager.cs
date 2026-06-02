@@ -72,6 +72,8 @@ public class DialogManager : MonoBehaviour
 
     private void EndDialogue()
     {
+        DialogActivator finishedDialogue = currentDialogue;
+
         if (typingCoroutine != null)
             StopCoroutine(typingCoroutine);
 
@@ -90,6 +92,8 @@ public class DialogManager : MonoBehaviour
         ShowDialogueUI(false);
 
         Input_Manager.Instance.SwitchToMap(InputMap.PLAYER);
+
+        finishedDialogue?.OnDialogueEnd();
     }
 
     private void ShowLine(int index)

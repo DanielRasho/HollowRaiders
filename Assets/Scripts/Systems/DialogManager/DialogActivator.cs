@@ -23,15 +23,10 @@ public class DialogActivator : MonoBehaviour, IInteractable
         return true;
     }
     
-    public void Interact()
+    public virtual void Interact()
     {
         OnStartDialogue?.Invoke(this);
 
-        if (shouldIncreaseMissioncount && !missionVisited)
-        {
-            LevelManager.Instance?.IncreaseMissionCount();
-            missionVisited = true;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -47,6 +42,14 @@ public class DialogActivator : MonoBehaviour, IInteractable
         if (showGlobe && other.CompareTag("Player"))
         {
             bubbleAnimator.SetBool(IsActiveHash, false);
+        }
+    }
+    public virtual void OnDialogueEnd()
+    {
+        if (shouldIncreaseMissioncount && !missionVisited)
+        {
+            LevelManager.Instance?.IncreaseMissionCount();
+            missionVisited = true;
         }
     }
 }
