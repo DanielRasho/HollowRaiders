@@ -34,22 +34,10 @@ public class MainMenuManager : MonoBehaviour
     
     public void OnPlayLvl(int lvl)
     {
-        string level = lvl switch
-        {
-            1 => SceneDatabase.Scenes.Lvl1,
-            2 => SceneDatabase.Scenes.Lvl2,
-            3 => SceneDatabase.Scenes.Lvl3,
-            _ => null
-        };
-
-        if (level == null)
-            return;
-        
-        var uwu = SceneGameManager.Instance
+        SceneGameManager.Instance
             .NewTransition()
             .Load(SceneDatabase.Slots.Session, SceneDatabase.Scenes.Session)
-            .Load(level, level)
-            .Load(SceneDatabase.Scenes.LevelMenu, SceneDatabase.Scenes.LevelMenu, true)
+            .Load(SceneDatabase.Scenes.Game, SceneDatabase.Scenes.Game, true)
             .Unload(SceneDatabase.Scenes.MainMenu)
             .WithOverlay()
             .Perform();

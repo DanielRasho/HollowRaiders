@@ -15,6 +15,8 @@ public class Map
     public Dictionary<int, MapDeadEnd> DeadEnds = new();
 
     public List<MapShortcut> Shortcuts = new();
+
+    public int MissionCount;
     
     public void AddCycle(
         int cycleId,

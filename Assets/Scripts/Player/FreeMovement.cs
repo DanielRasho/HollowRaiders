@@ -12,6 +12,7 @@ public class FreeMovement : MonoBehaviour
     [SerializeField] private float dashForce = 20f;
     [SerializeField] private float dashDuration = 0.15f;
     [SerializeField] private float dashCooldown = 0.75f;
+    [SerializeField] private AudioClip dashSfx;
 
     [Header("Enemy Collision")]
     [Tooltip("Layer assigned to enemies.")]
@@ -26,6 +27,7 @@ public class FreeMovement : MonoBehaviour
     private bool canDash = true;
     private bool isDashing = false;
     private bool isInvulnerable = false;
+    private bool isKnockedBack;
 
     public bool IsDashing => isDashing;
     public bool IsInvulnerable => isInvulnerable;
@@ -54,10 +56,10 @@ public class FreeMovement : MonoBehaviour
 
     void Update()
     {
-        if (!isDashing)
-        {
-            rb.linearVelocity = moveInput * moveSpeed;
-        }
+        if (isDashing || isKnockedBack)
+            return;
+
+        rb.linearVelocity = moveInput * moveSpeed;
     }
 
     private void SpawnPlayer(Transform t)
@@ -81,7 +83,8 @@ public class FreeMovement : MonoBehaviour
     {
         if (!ctx.performed || !canDash || !enableDash)
             return;
-
+        
+        AudioManager.Instance.PlayFX(dashSfx);
         StartCoroutine(Dash());
     }
 
@@ -156,8 +159,24 @@ public class FreeMovement : MonoBehaviour
         Debug.Log("Player pressed Interact button");
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    public void ApplyKnockback(Vector2 direction, float force, float duration)
     {
-        
+        StartCoroutine(KnockbackRoutine(direction, force, duration));
+    }
+
+    private IEnumerator KnockbackRoutine(
+        Vector2 direction,
+        float force,
+        float duration)
+    {
+        isKnockedBack = true;
+
+        rb.linearVelocity = Vector2.zero;
+
+        rb.AddForce(direction * force, ForceMode2D.Impulse);
+
+        yield return new WaitForSeconds(duration);
+
+        isKnockedBack = false;
     }
 }

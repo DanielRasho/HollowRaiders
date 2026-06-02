@@ -39,12 +39,14 @@ public class DungeonManager : MonoBehaviour
         return map != null ? map.Shortcuts.Count : 0;
     } 
     
+    public int MissionCount()
+    {
+        return map?.MissionCount ?? 0;
+    } 
+    
     private void EnsureInitialized()
     {
         generator ??= new DungeonGenerator(cfg);
-    }
-    void Start()
-    {
     }
 
     public void Generate()

@@ -14,10 +14,10 @@ public class SceneDatabase : MonoBehaviour
         public const string Bootstrap = "bootstrap";
         public const string MainMenu = "main-menu";
         public const string Session = "session";
-        public const string LevelMenu = "level-menu";
         
-        public const string Lvl1 = "lvl 1";
-        public const string Lvl2 = "lvl 2";
-        public const string Lvl3 = "lvl 3";
+        public const string Intro = "intro";
+        public const string Game = "game";
+        public const string Credits = "credits";
+        
     }
 }

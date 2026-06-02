@@ -200,6 +200,7 @@ public class DungeonGenerator
         {
             Vector2Int opositeRoomCoords = currentCoords;
 
+            // Fill current cycle
             while (roomsOnCycle.Count < 2)
             {
                 opositeRoomCoords = GetOpositeRoom(
@@ -260,14 +261,15 @@ public class DungeonGenerator
                 roomsOnCycle.Add(currentCoords);
             }
 
-            // Mark start room
             Room currentRoom = map.Rooms[currentCoords];
             currentRoom.Type = RoomType.MISSION;
         }
 
+        // Mark start room
         Room start = map.Rooms[initialCoords];
         start.Type = RoomType.START;
         map.spawnRoom = start;
+        map.MissionCount = markedRooms.Count - 1; // all missions minus the start room
 
         // Simplify points
         ReduceMarkedPoints(
@@ -419,8 +421,7 @@ public class DungeonGenerator
 
                 marked.Remove(victim);
 
-                map.Rooms[victim].Type =
-                    RoomType.UNASSIGNED;
+                map.Rooms[victim].Type = RoomType.UNASSIGNED;
 
                 continue;
             }
@@ -467,10 +468,7 @@ public class DungeonGenerator
 
             marked.Add(midpoint);
 
-            if (
-                roomPa.Type == RoomType.START ||
-                roomPb.Type == RoomType.START
-            )
+            if (roomPa.Type == RoomType.START || roomPb.Type == RoomType.START)
             {
                 map.Rooms[midpoint].Type = RoomType.START;
             }
@@ -483,6 +481,8 @@ public class DungeonGenerator
 
             map.Rooms[pb].Type = RoomType.UNASSIGNED;
         }
+
+        map.MissionCount = marked.Count - 1; // All rooms minus start room
 
         return marked;
     }
