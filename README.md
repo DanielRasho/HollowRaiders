@@ -17,7 +17,7 @@ Plan your path, adapt to the unknown, and lead your team through the chaos.
 
 ## 🎮 Demo
 
-▶️ [https://youtu.be/iKBrpOy1PXw](https://smaugthur.itch.io/hollow-riders)
+▶️ [https://smaugthur.itch.io/hollow-riders](https://smaugthur.itch.io/hollow-riders)
 
 ---
 
